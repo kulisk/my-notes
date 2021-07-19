@@ -15,6 +15,14 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
   }
   
+  h1 {
+    margin: 0 !important;
+  }
+
+  input:focus {
+    outline: none;
+  }
+  
   .color-primary {
     background-color: #530086;
   }

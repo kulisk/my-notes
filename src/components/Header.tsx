@@ -10,7 +10,7 @@ import {RootState} from "../reducers/store";
 import {logout} from "../reducers/UserReducer";
 
 const Header: React.FC = () => {
-    const isAuth = useSelector((state: RootState) => state.repos.isAuth)
+    const isAuth = useSelector((state: RootState) => state.users.isAuth)
 
     const dispatch = useDispatch()
 
@@ -30,7 +30,9 @@ const Header: React.FC = () => {
                                  style={{textDecoration: 'none'}}
                                  to={LOGIN_ROUTE}
                                  onClick={() => onLogoutClick()}>
-                            <Icon src={'./icons/logout.svg'}/>
+                            <Icon src={'./icons/logout.svg'}
+                                  width={'40'}
+                                  height={'40'}/>
                         </NavLink>
                     </div>
                 }

@@ -1,14 +1,22 @@
 import React from 'react';
 import styled from "styled-components";
+import {colors} from "../styles/variables";
 
-const StyledHeading = styled.h1`
+interface HeadingInterface {
+    color?: string
+    className?: string
+}
+
+const StyledHeading = styled.h1<HeadingInterface>`
   font-size: 4rem;
   font-weight: 700;
-  color: #fff;
+  color: ${props => props.color ? props.color : colors.white};
 `
 
-const Heading: React.FC = (props) => {
-    return <StyledHeading {...props}/>
+const Heading: React.FC<HeadingInterface> = ({children, color, className}) => {
+    return <StyledHeading color={color} className={className}>
+        {children}
+    </StyledHeading>
 };
 
 export default Heading;

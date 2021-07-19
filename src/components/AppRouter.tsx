@@ -6,7 +6,8 @@ import {useSelector} from "react-redux";
 import {RootState} from "../reducers/store";
 
 const AppRouter = () => {
-    const isAuth = useSelector((state: RootState) => state.repos.isAuth)
+    // const isAuth = useSelector((state: RootState) => state.users.isAuth)
+    const isAuth = true
     return (
         <Switch>
             {isAuth && authRoutes.map(({path, Component}) =>
