@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {colors} from "../styles/variables";
 
 interface ContentHeaderInterface {
-
+    style?: React.CSSProperties
 }
 
 const StyledContentHeader = styled.div<ContentHeaderInterface>`
@@ -17,15 +17,16 @@ const StyledContentHeader = styled.div<ContentHeaderInterface>`
   padding: 0 4rem;
 `
 
-const ContentHeader:React.FC<ContentHeaderInterface> =
+const ContentHeader: React.FC<ContentHeaderInterface> =
     ({
-        children
+         children,
+         style
      }) => {
-    return (
-        <StyledContentHeader>
-            {children}
-        </StyledContentHeader>
-    );
-};
+        return (
+            <StyledContentHeader style={style}>
+                {children}
+            </StyledContentHeader>
+        );
+    };
 
 export default ContentHeader;

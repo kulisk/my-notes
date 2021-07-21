@@ -4,10 +4,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from "redux-thunk";
 import {userReducer} from "./UserReducer";
 import {noteReducer} from "./NoteReducer";
+import {pageReducer} from "./PageReducer";
 
 const rootReducer = combineReducers({
     users: userReducer,
-    notes: noteReducer
+    notes: noteReducer,
+    pages: pageReducer
 })
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))

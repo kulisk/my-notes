@@ -14,15 +14,21 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
     font-family: 'Roboto', sans-serif;
   }
-  
+
   h1 {
     margin: 0 !important;
   }
 
-  input:focus {
+  a {
+    text-decoration: none;
+  }
+
+  input:focus,
+  button:focus,
+  textarea:focus {
     outline: none;
   }
-  
+
   .color-primary {
     background-color: #530086;
   }

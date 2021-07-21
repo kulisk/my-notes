@@ -7,6 +7,7 @@ interface IconInterface {
     height?: string
     isTurned?: boolean
     className?: string
+    notHover?: boolean
 }
 
 const StyledIcon = styled.div<IconInterface>`
@@ -16,15 +17,32 @@ const StyledIcon = styled.div<IconInterface>`
   transition: 0.2s linear all;
   transform: ${props => props.isTurned ? 'rotate(45deg)' : 'none'};
 
+
   &:hover {
-    background: url("${props => props.src.slice(0, props.src.length - 4) + '-hover.svg'}");
+    background: url("${props => !props.notHover
+            ? props.src.slice(0, props.src.length - 4) + '-hover.svg'
+            : props.src}");
   }
 `
 
-const Icon: React.FC<IconInterface> = ({src, width, height, isTurned, className}) => {
-    return (
-        <StyledIcon src={src} width={width} height={height} isTurned={isTurned} className={className}/>
-    );
-};
+const Icon: React.FC<IconInterface> =
+    ({
+         src,
+         width,
+         height,
+         isTurned,
+         className,
+         notHover
+     }) => {
+        return (
+            <StyledIcon src={src}
+                        width={width}
+                        height={height}
+                        isTurned={isTurned}
+                        className={className}
+                        notHover={notHover}
+            />
+        );
+    };
 
 export default Icon;

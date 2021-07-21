@@ -8,7 +8,7 @@ import RegularText from "../components/RegularText";
 import {NavLink} from "react-router-dom";
 import {REGISTRATION_ROUTE} from "../const/routes";
 import SmallText from "../components/SmallText";
-import TextInput from "../components/TextInput";
+import TextInputItem from "../components/TextInputItem";
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -20,8 +20,8 @@ const Login = () => {
     return (
         <AuthForm title={'Log in'}>
             <form action="#">
-                <TextInput title={'login'} type={'text'}/>
-                <TextInput title={'password'} type={'password'}/>
+                <TextInputItem title={'login'} type={'text'}/>
+                <TextInputItem title={'password'} type={'password'}/>
             </form>
             <AuthButton onClick={() => onLoginClick()}>
                 <RegularText color={colors.white}>Log in</RegularText>
@@ -30,8 +30,7 @@ const Login = () => {
                 marginTop: '30px',
                 textAlign: 'center'
             }}>
-                <NavLink to={REGISTRATION_ROUTE}
-                         style={{textDecoration: 'none'}}>
+                <NavLink to={REGISTRATION_ROUTE}>
                     <SmallText color={'#000'}>
                         Don’t have an account yet? Register
                     </SmallText>

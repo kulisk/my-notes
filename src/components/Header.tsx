@@ -21,13 +21,12 @@ const Header: React.FC = () => {
     return (
         <Navbar className={'color-primary p-3 mb-5'} expand="sm">
             <Container>
-                <NavLink style={{textDecoration: 'none'}} to={HOME_ROUTE}><Heading>My Notes</Heading></NavLink>
+                <NavLink to={HOME_ROUTE}><Heading>My Notes</Heading></NavLink>
                 {
                     isAuth &&
                     <div className={'d-flex align-items-center'}>
                         <RegularText color={'#fff'}>Username</RegularText>
                         <NavLink className={'ms-3'}
-                                 style={{textDecoration: 'none'}}
                                  to={LOGIN_ROUTE}
                                  onClick={() => onLogoutClick()}>
                             <Icon src={'./icons/logout.svg'}

@@ -2,34 +2,33 @@ import React from 'react';
 import styled from "styled-components";
 import {colors} from "../styles/variables";
 
-interface TextInputInterface {
-    type: string
+interface TextAreaInterface {
     style?: React.CSSProperties
 }
 
-const StyledTextInput = styled.input<TextInputInterface>`
+const StyledTextArea = styled.textarea<TextAreaInterface>`
   border: 0.1rem solid ${colors.primaryLight};
   border-radius: 0.3rem;
   width: 100%;
-  height: 40px;
+  height: 200px;
   font-size: 2.4rem;
   font-weight: 500;
   color: #000;
   transition: 0.2s linear all;
+  resize: none;
 
   &:focus {
     border: 0.1rem solid ${colors.primary}
   }
 `
 
-const TextInput: React.FC<TextInputInterface> =
+const TextArea: React.FC<TextAreaInterface> =
     ({
-         type,
-         style
+        style
      }) => {
-        return (
-            <StyledTextInput style={style} type={type}/>
-        );
-    };
+    return (
+        <StyledTextArea style={style}/>
+    );
+};
 
-export default TextInput;
+export default TextArea;

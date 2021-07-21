@@ -15,20 +15,21 @@ const StyledButton = styled.button<AuthButtonInterface>`
   border: none;
   transition: 0.2s linear all;
 
-  &:hover {
+  &:hover, &:focus {
     background-color: ${colors.primary};
   }
 `
 
-const AuthButton: React.FC<AuthButtonInterface> = ({
-                                                       children,
-                                                       onClick
-                                                   }) => {
-    return (
-        <StyledButton onClick={onClick}>
-            {children}
-        </StyledButton>
-    );
-};
+const AuthButton: React.FC<AuthButtonInterface> =
+    ({
+         children,
+         onClick
+     }) => {
+        return (
+            <StyledButton onClick={onClick}>
+                {children}
+            </StyledButton>
+        );
+    };
 
 export default AuthButton;

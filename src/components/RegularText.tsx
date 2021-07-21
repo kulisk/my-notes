@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 interface RegularTextInterface {
     color: string
+    style?: React.CSSProperties
 }
 
 const StyledRegularText = styled.span`
@@ -11,12 +12,17 @@ const StyledRegularText = styled.span`
   color: ${props => props.color};
 `
 
-const RegularText: React.FC<RegularTextInterface> = ({color, children}) => {
-    return (
-        <StyledRegularText color={color}>
-            {children}
-        </StyledRegularText>
-    );
-};
+const RegularText: React.FC<RegularTextInterface> =
+    ({
+         color,
+         children,
+         style
+     }) => {
+        return (
+            <StyledRegularText color={color} style={style}>
+                {children}
+            </StyledRegularText>
+        );
+    };
 
 export default RegularText;
