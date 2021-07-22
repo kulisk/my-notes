@@ -8,6 +8,7 @@ interface IconInterface {
     isTurned?: boolean
     className?: string
     notHover?: boolean
+    onClick?: () => any
 }
 
 const StyledIcon = styled.div<IconInterface>`
@@ -32,7 +33,8 @@ const Icon: React.FC<IconInterface> =
          height,
          isTurned,
          className,
-         notHover
+         notHover,
+         onClick
      }) => {
         return (
             <StyledIcon src={src}
@@ -41,6 +43,7 @@ const Icon: React.FC<IconInterface> =
                         isTurned={isTurned}
                         className={className}
                         notHover={notHover}
+                        onClick={onClick}
             />
         );
     };

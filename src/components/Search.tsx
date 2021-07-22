@@ -36,7 +36,7 @@ const Search: React.FC<SearchInterface> = () => {
         <StyledSearch>
             <input type="text"/>
             <NavLink to={SEARCH_ROUTE}>
-                <Icon src={'./icons/loupe.svg'}
+                <Icon src={'/icons/loupe.svg'}
                       width={'31'}
                       notHover/>
             </NavLink>

@@ -4,7 +4,6 @@ import Icon from "./Icon";
 import PaginatorButton from "./PaginatorButton";
 import {useSelector} from "react-redux";
 import {RootState} from "../reducers/store";
-import {colors} from "../styles/variables";
 
 interface PaginatorInterface {
     className?: string
@@ -24,7 +23,7 @@ const Paginator: React.FC<PaginatorInterface> =
         return (
             <StyledPaginator className={className}>
                 <PaginatorButton className={'me-5'}>
-                    <Icon src={'./icons/back.svg'} notHover/>
+                    <Icon src={'/icons/back.svg'} notHover/>
                 </PaginatorButton>
                 <div className={'d-flex'}>
                     {
@@ -34,7 +33,7 @@ const Paginator: React.FC<PaginatorInterface> =
                     }
                 </div>
                 <PaginatorButton className={'ms-5'}>
-                    <Icon src={'./icons/next.svg'} notHover/>
+                    <Icon src={'/icons/next.svg'} notHover/>
                 </PaginatorButton>
             </StyledPaginator>
         );

@@ -4,6 +4,7 @@ import {colors} from "../styles/variables";
 
 interface TextAreaInterface {
     style?: React.CSSProperties
+    value?: string
 }
 
 const StyledTextArea = styled.textarea<TextAreaInterface>`
@@ -24,11 +25,12 @@ const StyledTextArea = styled.textarea<TextAreaInterface>`
 
 const TextArea: React.FC<TextAreaInterface> =
     ({
-        style
+         style,
+        value
      }) => {
-    return (
-        <StyledTextArea style={style}/>
-    );
-};
+        return (
+            <StyledTextArea style={style} defaultValue={value}/>
+        );
+    };
 
 export default TextArea;

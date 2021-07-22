@@ -20,7 +20,7 @@ export const authRoutes = [
         Component: Create
     },
     {
-        path: SEARCH_ROUTE + '?term={searchTermOrTag}',
+        path: SEARCH_ROUTE,
         Component: Search
     }
 ]

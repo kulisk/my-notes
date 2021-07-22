@@ -29,7 +29,7 @@ const Header: React.FC = () => {
                         <NavLink className={'ms-3'}
                                  to={LOGIN_ROUTE}
                                  onClick={() => onLogoutClick()}>
-                            <Icon src={'./icons/logout.svg'}
+                            <Icon src={'/icons/logout.svg'}
                                   width={'40'}
                                   height={'40'}/>
                         </NavLink>

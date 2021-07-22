@@ -5,6 +5,7 @@ import {colors} from "../styles/variables";
 interface TextInputInterface {
     type: string
     style?: React.CSSProperties
+    value?: string
 }
 
 const StyledTextInput = styled.input<TextInputInterface>`
@@ -25,10 +26,11 @@ const StyledTextInput = styled.input<TextInputInterface>`
 const TextInput: React.FC<TextInputInterface> =
     ({
          type,
-         style
+         style,
+         value
      }) => {
         return (
-            <StyledTextInput style={style} type={type}/>
+            <StyledTextInput style={style} type={type} defaultValue={value}/>
         );
     };
 

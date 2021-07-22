@@ -4,14 +4,24 @@ import Icon from "./Icon";
 import {colors} from "../styles/variables";
 import Heading from "./Heading";
 import Tag from "./Tag";
+import {NavLink} from "react-router-dom";
+import {EDIT_ROUTE} from "../const/routes";
+import {copy, pin, remove} from "../reducers/NoteReducer";
+import {useDispatch} from "react-redux";
 
-interface NoteInterface {
+export interface NoteInterface {
+    id: number
     isPinned?: boolean,
     title?: string
     tags?: Array<string>
+    content?: string
 }
 
-const StyledNote = styled.div<NoteInterface>`
+interface NoteStyle {
+    isPinned?: boolean
+}
+
+const StyledNote = styled.div<NoteStyle>`
   height: 80px;
   width: 100%;
   display: flex;
@@ -22,30 +32,71 @@ const StyledNote = styled.div<NoteInterface>`
   border-right: 1px solid ${colors.primary};
   border-bottom: 1px solid ${colors.primary};
   transition: 0.2s linear all;
-  cursor: pointer;
 
   &:hover {
     box-shadow: 0 0 0.5rem 0.2rem ${colors.primary};
     position: relative;
   }
+
+  .tagsWrapper {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+  }
 `
 
-const Note: React.FC<NoteInterface> = ({isPinned, title, tags}) => {
-    return (
-        <StyledNote isPinned={isPinned}>
-            <Icon src={'./icons/pin.svg'}
-                  isTurned={isPinned}
-            />
-            <Heading color={colors.primary} className={'ms-5'}>{title}</Heading>
-            <div className={'d-flex justify-content-end flex-grow-1'}>
-                {
-                    tags?.map((item, index) => <Tag key={index}>{item}</Tag>)
-                }
-                <Icon src={'./icons/rubbish.svg'} className={'ms-3'}/>
-                <Icon src={'./icons/copy.svg'} className={'ms-3'}/>
-            </div>
-        </StyledNote>
-    );
-};
+const Note: React.FC<NoteInterface> =
+    ({
+         isPinned,
+         title,
+         tags,
+         id
+     }) => {
+        const dispatch = useDispatch();
+
+        function onDeleteClick() {
+            dispatch(remove(id))
+        }
+
+        function onPinClick() {
+            dispatch(pin(id))
+        }
+
+        function onCopyClick() {
+            dispatch(copy(id))
+        }
+
+        return (
+            <StyledNote isPinned={isPinned}>
+                <div className="pinWrapper">
+                    <Icon src={'/icons/pin.svg'}
+                          isTurned={isPinned}
+                          onClick={() => onPinClick()}
+                    />
+                </div>
+                <NavLink to={EDIT_ROUTE + '/' + id}
+                         className={'d-flex align-items-center'}
+                         style={{
+                             height: 'inherit',
+                             width: '100%',
+                         }}>
+                    <Heading color={colors.primary} className={'ms-5'}>{title}</Heading>
+                    <div className="tagsWrapper">
+                        {
+                            tags?.map((item, index) => <Tag key={index}>{item}</Tag>)
+                        }
+                    </div>
+                </NavLink>
+                <div className={'d-flex justify-content-end flex-grow-1'}>
+                    <Icon src={'/icons/rubbish.svg'}
+                          className={'ms-3'}
+                          onClick={() => onDeleteClick()}/>
+                    <Icon src={'/icons/copy.svg'}
+                          className={'ms-3'}
+                          onClick={() => onCopyClick()}/>
+                </div>
+            </StyledNote>
+        );
+    };
 
 export default Note;
