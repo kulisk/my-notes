@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from "styled-components";
-import {colors} from "../styles/variables";
+import styled from 'styled-components';
+import { colors } from '../styles/variables';
 
 interface TextInputInterface {
     type: string
@@ -21,17 +21,14 @@ const StyledTextInput = styled.input<TextInputInterface>`
   &:focus {
     border: 0.1rem solid ${colors.primary}
   }
-`
+`;
 
-const TextInput: React.FC<TextInputInterface> =
-    ({
-         type,
-         style,
-         value
-     }) => {
-        return (
-            <StyledTextInput style={style} type={type} defaultValue={value}/>
-        );
-    };
+const TextInput: React.FC<TextInputInterface> = ({
+  type,
+  style,
+  value,
+}) => (
+  <StyledTextInput style={style} type={type} defaultValue={value} />
+);
 
 export default TextInput;

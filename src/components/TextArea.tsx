@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from "styled-components";
-import {colors} from "../styles/variables";
+import styled from 'styled-components';
+import { colors } from '../styles/variables';
 
 interface TextAreaInterface {
     style?: React.CSSProperties
@@ -21,16 +21,13 @@ const StyledTextArea = styled.textarea<TextAreaInterface>`
   &:focus {
     border: 0.1rem solid ${colors.primary}
   }
-`
+`;
 
-const TextArea: React.FC<TextAreaInterface> =
-    ({
-         style,
-        value
-     }) => {
-        return (
-            <StyledTextArea style={style} defaultValue={value}/>
-        );
-    };
+const TextArea: React.FC<TextAreaInterface> = ({
+  style,
+  value,
+}) => (
+  <StyledTextArea style={style} defaultValue={value} />
+);
 
 export default TextArea;

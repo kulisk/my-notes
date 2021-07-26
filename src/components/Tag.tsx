@@ -1,12 +1,8 @@
 import React from 'react';
-import styled from "styled-components";
-import {colors} from "../styles/variables";
+import styled from 'styled-components';
+import { colors } from '../styles/variables';
 
-interface TagInterface {
-    // title: string
-}
-
-const StyledTag = styled.div<TagInterface>`
+const StyledTag = styled.div`
   background-color: ${colors.primary};
   height: 30px;
   display: flex;
@@ -18,12 +14,10 @@ const StyledTag = styled.div<TagInterface>`
   color: ${colors.white};
   border-radius: 1.5rem;
   margin-left: 3rem;
-`
+`;
 
-const Tag: React.FC<TagInterface> = ({children}) => {
-    return (
-        <StyledTag>{children}</StyledTag>
-    );
-};
+const Tag: React.FC = ({ children }) => (
+  <StyledTag>{children}</StyledTag>
+);
 
 export default Tag;

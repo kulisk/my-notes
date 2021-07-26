@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from "styled-components";
-import {colors} from "../styles/variables";
+import styled from 'styled-components';
+import { colors } from '../styles/variables';
 
 interface HeadingInterface {
     color?: string
@@ -10,13 +10,13 @@ interface HeadingInterface {
 const StyledHeading = styled.h1<HeadingInterface>`
   font-size: 4rem;
   font-weight: 700;
-  color: ${props => props.color ? props.color : colors.white};
-`
+  color: ${(props) => (props.color ? props.color : colors.white)};
+`;
 
-const Heading: React.FC<HeadingInterface> = ({children, color, className}) => {
-    return <StyledHeading color={color} className={className}>
-        {children}
-    </StyledHeading>
-};
+const Heading: React.FC<HeadingInterface> = ({ children, color, className }) => (
+  <StyledHeading color={color} className={className}>
+    {children}
+  </StyledHeading>
+);
 
 export default Heading;

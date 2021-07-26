@@ -1,6 +1,6 @@
-import React, {ReactElement} from 'react';
-import styled from "styled-components";
-import {colors} from "../styles/variables";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
+import { colors } from '../styles/variables';
 
 interface AuthButtonInterface {
     children: ReactElement
@@ -18,18 +18,15 @@ const StyledButton = styled.button<AuthButtonInterface>`
   &:hover, &:focus {
     background-color: ${colors.primary};
   }
-`
+`;
 
-const AuthButton: React.FC<AuthButtonInterface> =
-    ({
-         children,
-         onClick
-     }) => {
-        return (
-            <StyledButton onClick={onClick}>
-                {children}
-            </StyledButton>
-        );
-    };
+const AuthButton: React.FC<AuthButtonInterface> = ({
+  children,
+  onClick,
+}) => (
+  <StyledButton onClick={onClick}>
+    {children}
+  </StyledButton>
+);
 
 export default AuthButton;

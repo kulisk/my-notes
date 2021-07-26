@@ -1,15 +1,11 @@
 import React from 'react';
-import styled from "styled-components";
-import {colors} from "../styles/variables";
-import {NavLink} from "react-router-dom";
-import {SEARCH_ROUTE} from "../const/routes";
-import Icon from "./Icon";
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import { colors } from '../styles/variables';
+import { SEARCH_ROUTE } from '../const/routes';
+import Icon from './Icon';
 
-interface SearchInterface {
-
-}
-
-const StyledSearch = styled.div<SearchInterface>`
+const StyledSearch = styled.div`
   display: flex;
   align-items: center;
   width: 486px;
@@ -29,19 +25,19 @@ const StyledSearch = styled.div<SearchInterface>`
     background-color: inherit;
     border: none;
   }
-`
+`;
 
-const Search: React.FC<SearchInterface> = () => {
-    return (
-        <StyledSearch>
-            <input type="text"/>
-            <NavLink to={SEARCH_ROUTE}>
-                <Icon src={'/icons/loupe.svg'}
-                      width={'31'}
-                      notHover/>
-            </NavLink>
-        </StyledSearch>
-    );
-};
+const Search: React.FC = () => (
+  <StyledSearch>
+    <input type="text" />
+    <NavLink to={SEARCH_ROUTE}>
+      <Icon
+        src="/icons/loupe.svg"
+        width="31"
+        notHover
+      />
+    </NavLink>
+  </StyledSearch>
+);
 
 export default Search;

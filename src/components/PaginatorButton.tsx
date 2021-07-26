@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from "styled-components";
-import {colors} from "../styles/variables";
+import styled from 'styled-components';
+import { colors } from '../styles/variables';
 
 interface PaginatorButtonInterface {
     className?: string
@@ -26,18 +26,15 @@ const StyledPaginatorButton = styled.div<PaginatorButtonInterface>`
   &:hover {
     background-color: ${colors.primaryLight};
   }
-`
+`;
 
-const PaginatorButton: React.FC<PaginatorButtonInterface> =
-    ({
-         children,
-         className
-     }) => {
-        return (
-            <StyledPaginatorButton className={className}>
-                {children}
-            </StyledPaginatorButton>
-        );
-    };
+const PaginatorButton: React.FC<PaginatorButtonInterface> = ({
+  children,
+  className,
+}) => (
+  <StyledPaginatorButton className={className}>
+    {children}
+  </StyledPaginatorButton>
+);
 
 export default PaginatorButton;

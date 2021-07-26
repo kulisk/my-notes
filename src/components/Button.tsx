@@ -1,12 +1,8 @@
 import React from 'react';
-import styled from "styled-components";
-import {colors} from "../styles/variables";
+import styled from 'styled-components';
+import { colors } from '../styles/variables';
 
-interface ButtonInterface {
-
-}
-
-const StyledButton = styled.button<ButtonInterface>`
+const StyledButton = styled.button`
   width: 360px;
   height: 60px;
   background-color: ${colors.primaryLight};
@@ -20,17 +16,14 @@ const StyledButton = styled.button<ButtonInterface>`
   &:hover {
     background-color: ${colors.primary};
   }
-`
+`;
 
-const Button: React.FC<ButtonInterface> =
-    ({
-         children,
-     }) => {
-        return (
-            <StyledButton>
-                {children}
-            </StyledButton>
-        );
-    };
+const Button: React.FC = ({
+  children,
+}) => (
+  <StyledButton>
+    {children}
+  </StyledButton>
+);
 
 export default Button;
