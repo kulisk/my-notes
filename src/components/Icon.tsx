@@ -8,7 +8,7 @@ interface IconInterface {
     isTurned?: boolean
     className?: string
     notHover?: boolean
-    onClick?: () => any
+    onClick?: () => void
 }
 
 const StyledIcon = styled.div<IconInterface>`

@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../styles/variables';
 
+interface Button {
+    onClick?: () => void
+}
+
 const StyledButton = styled.button`
   width: 360px;
   height: 60px;
@@ -18,10 +22,11 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button: React.FC = ({
+const Button: React.FC<Button> = ({
   children,
+  onClick,
 }) => (
-  <StyledButton>
+  <StyledButton onClick={onClick}>
     {children}
   </StyledButton>
 );

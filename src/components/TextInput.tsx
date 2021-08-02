@@ -6,6 +6,7 @@ interface TextInputInterface {
     type: string
     style?: React.CSSProperties
     value?: string
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const StyledTextInput = styled.input<TextInputInterface>`
@@ -27,8 +28,14 @@ const TextInput: React.FC<TextInputInterface> = ({
   type,
   style,
   value,
+  onChange,
 }) => (
-  <StyledTextInput style={style} type={type} defaultValue={value} />
+  <StyledTextInput
+    style={style}
+    type={type}
+    defaultValue={value}
+    onChange={onChange}
+  />
 );
 
 export default TextInput;

@@ -1,8 +1,9 @@
 import { NoteInterface } from '../components/Note';
 
 interface Action {
-    type: string
-    id?: number
+  type: string
+  id?: number
+  note: NoteInterface
 }
 
 const PIN = 'pin';
@@ -20,9 +21,9 @@ const defaultState: Array<NoteInterface> = [
       'tag2',
     ],
     content: 'They told him don\'t you ever come around here\n'
-            + 'Don\'t wanna see your face, you better disappear\n'
-            + 'The fire\'s in their eyes and their words are really clear\n'
-            + 'So beat it, just beat it',
+        + 'Don\'t wanna see your face, you better disappear\n'
+        + 'The fire\'s in their eyes and their words are really clear\n'
+        + 'So beat it, just beat it',
   },
   {
     id: 2,
@@ -60,7 +61,6 @@ const defaultState: Array<NoteInterface> = [
 
 export function noteReducer(state = defaultState, action: Action): Array<NoteInterface> {
   function getMaxId() {
-    // return Math.max.apply(Math, state.map((note) => note.id));
     return Math.max(...state.map((note) => note.id));
   }
 
@@ -85,7 +85,9 @@ export function noteReducer(state = defaultState, action: Action): Array<NoteInt
         .concat([noteToCopy]);
     }
     case CREATE:
-      return state;
+      return state
+        .slice(0, state.length)
+        .concat([action.note]);
     default:
       return state;
   }
@@ -94,4 +96,4 @@ export function noteReducer(state = defaultState, action: Action): Array<NoteInt
 export const pin = (id: number) => ({ type: PIN, id });
 export const remove = (id: number) => ({ type: REMOVE, id });
 export const copy = (id: number) => ({ type: COPY, id });
-export const create = () => ({ type: CREATE });
+export const create = (note: NoteInterface) => ({ type: CREATE, note });
