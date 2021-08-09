@@ -5,9 +5,8 @@ import { authRoutes, publicRoutes } from '../routes';
 import { HOME_ROUTE, LOGIN_ROUTE } from '../const/routes';
 import { RootState } from '../reducers/store';
 
-const AppRouter = () => {
-  // const isAuth = useSelector((state: RootState) => state.users.isAuth)
-  const isAuth = true;
+const AppRouter = (): JSX.Element => {
+  const isAuth = useSelector((state: RootState) => state.users.isAuth);
   return (
     <Switch>
       {isAuth && authRoutes.map(({ path, Component }) => <Route key={path} path={path} component={Component} exact />)}

@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import axios from 'axios';
-import { login } from '../reducers/UserReducer';
+import { NavLink, Redirect } from 'react-router-dom';
+import { loginAction } from '../reducers/UserReducer';
 import AuthForm from '../components/AuthForm';
 import AuthButton from '../components/AuthButton';
 import { colors } from '../styles/variables';
@@ -10,25 +9,31 @@ import RegularText from '../components/RegularText';
 import { REGISTRATION_ROUTE } from '../const/routes';
 import SmallText from '../components/SmallText';
 import TextInputItem from '../components/TextInputItem';
+import { signIn } from '../http';
 
 const Login = (): JSX.Element => {
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+
   const dispatch = useDispatch();
 
-  const headers = {
-    'Content-Type': 'application/json',
+  const onLoginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLogin(event.target.value);
+  };
+
+  const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
   };
 
   const postData = {
-    login: 'Kirill',
-    password: 'password',
+    login,
+    password,
   };
 
   function onLoginClick() {
-    axios.post(`${process.env.REACT_APP_API_URL}auth/login`, postData, {
-      headers,
-    }).then((response) => {
-      window.localStorage.setItem('accessToken', response.data.accessToken);
-      dispatch(login(response.data.login, response.data.accessToken));
+    signIn(postData).then((response) => {
+      localStorage.setItem('accessToken', response.data.accessToken);
+      dispatch(loginAction(response.data.login, response.data.accessToken));
     }).catch((e) => {
       console.log(e);
     });
@@ -37,8 +42,8 @@ const Login = (): JSX.Element => {
   return (
     <AuthForm title="Log in">
       <form action="#">
-        <TextInputItem title="login" type="text" />
-        <TextInputItem title="password" type="password" />
+        <TextInputItem title="login" type="text" onChange={(event) => onLoginChange(event)} />
+        <TextInputItem title="password" type="password" onChange={(event) => onPasswordChange(event)} />
       </form>
       <AuthButton onClick={() => onLoginClick()}>
         <RegularText color={colors.white}>Log in</RegularText>

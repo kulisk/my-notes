@@ -7,6 +7,7 @@ import TextInput from './TextInput';
 interface TextInputItemInterface {
     title: string
     type: string
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const StyledTextInputItem = styled.div<TextInputItemInterface>`
@@ -32,12 +33,12 @@ const StyledTextInputItem = styled.div<TextInputItemInterface>`
   }
 `;
 
-const TextInputItem: React.FC<TextInputItemInterface> = ({ title, type }) => (
+const TextInputItem: React.FC<TextInputItemInterface> = ({ title, type, onChange }) => (
   <StyledTextInputItem title={title} type={type}>
     <SmallText color={colors.grey}>
       {title}
     </SmallText>
-    <TextInput type={type} />
+    <TextInput type={type} onChange={onChange} />
   </StyledTextInputItem>
 );
 

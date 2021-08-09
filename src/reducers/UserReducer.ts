@@ -37,5 +37,9 @@ export function userReducer(state: authInterface = defaultState, action: actionI
   }
 }
 
-export const login = (login: string, accessToken: string) => ({ type: loginType, login, accessToken });
-export const logout = () => ({ type: logoutType });
+export const loginAction = (login: string, accessToken: string): actionInterface => ({
+  type: loginType,
+  login,
+  accessToken,
+});
+export const logoutAction = (): actionInterface => ({ type: logoutType });

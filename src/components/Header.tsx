@@ -7,7 +7,7 @@ import RegularText from './RegularText';
 import { HOME_ROUTE, LOGIN_ROUTE } from '../const/routes';
 import Icon from './Icon';
 import { RootState } from '../reducers/store';
-import { logout } from '../reducers/UserReducer';
+import { logoutAction } from '../reducers/UserReducer';
 
 const Header: React.FC = () => {
   const isAuth = useSelector((state: RootState) => state.users.isAuth);
@@ -16,7 +16,7 @@ const Header: React.FC = () => {
   const dispatch = useDispatch();
 
   function onLogoutClick() {
-    dispatch(logout());
+    dispatch(logoutAction());
   }
 
   return (
