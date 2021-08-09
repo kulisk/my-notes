@@ -1,20 +1,41 @@
 interface actionInterface {
     type: string
+    login?: string
+    accessToken?: string
 }
 
-const LOGIN = 'login';
-const LOGOUT = 'logout';
+interface authInterface {
+    login?: string,
+    accessToken?: string,
+    isAuth?: boolean,
+}
 
-export function userReducer(state = { isAuth: false }, action: actionInterface) {
+const loginType = 'login';
+const logoutType = 'logout';
+
+const defaultState: authInterface = {
+  login: '',
+  accessToken: '',
+  isAuth: false,
+};
+
+export function userReducer(state: authInterface = defaultState, action: actionInterface): authInterface {
   switch (action.type) {
-    case LOGIN:
-      return { isAuth: true };
-    case LOGOUT:
-      return { isAuth: false };
+    case loginType:
+      return {
+        login: action.login,
+        accessToken: action.accessToken,
+        isAuth: true,
+      };
+    case logoutType:
+      return {
+        ...state,
+        isAuth: false,
+      };
     default:
       return state;
   }
 }
 
-export const login = () => ({ type: LOGIN });
-export const logout = () => ({ type: LOGOUT });
+export const login = (login: string, accessToken: string) => ({ type: loginType, login, accessToken });
+export const logout = () => ({ type: logoutType });

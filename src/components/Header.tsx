@@ -11,6 +11,7 @@ import { logout } from '../reducers/UserReducer';
 
 const Header: React.FC = () => {
   const isAuth = useSelector((state: RootState) => state.users.isAuth);
+  const userName = useSelector((state: RootState) => state.users.login);
 
   const dispatch = useDispatch();
 
@@ -26,7 +27,7 @@ const Header: React.FC = () => {
                     isAuth
                     && (
                     <div className="d-flex align-items-center">
-                      <RegularText color="#fff">Username</RegularText>
+                      <RegularText color="#fff">{userName}</RegularText>
                       <NavLink
                         className="ms-3"
                         to={LOGIN_ROUTE}

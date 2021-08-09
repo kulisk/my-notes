@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 import { login } from '../reducers/UserReducer';
 import AuthForm from '../components/AuthForm';
 import AuthButton from '../components/AuthButton';
@@ -10,11 +11,27 @@ import { REGISTRATION_ROUTE } from '../const/routes';
 import SmallText from '../components/SmallText';
 import TextInputItem from '../components/TextInputItem';
 
-const Login = () => {
+const Login = (): JSX.Element => {
   const dispatch = useDispatch();
 
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  const postData = {
+    login: 'Kirill',
+    password: 'password',
+  };
+
   function onLoginClick() {
-    dispatch(login());
+    axios.post(`${process.env.REACT_APP_API_URL}auth/login`, postData, {
+      headers,
+    }).then((response) => {
+      window.localStorage.setItem('accessToken', response.data.accessToken);
+      dispatch(login(response.data.login, response.data.accessToken));
+    }).catch((e) => {
+      console.log(e);
+    });
   }
 
   return (
