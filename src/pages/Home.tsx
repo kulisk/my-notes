@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { RootState } from '../reducers/store';
@@ -9,12 +9,35 @@ import Icon from '../components/Icon';
 import { CREATE_ROUTE } from '../const/routes';
 import Search from '../components/Search';
 import Paginator from '../components/Paginator';
+import { getAllNotes } from '../http';
+import { create } from '../reducers/NoteReducer';
 
-const Home = () => {
+const Home = (): JSX.Element => {
+  const dispatch = useDispatch();
+
   const notes = useSelector((state: RootState) => state.notes);
+
+  useEffect(() => {
+    getAllNotes().then((response) => {
+      const notesDb: NoteInterface[] = response.data;
+      if (notes.length > 0) {
+        return;
+      }
+      notesDb.forEach((value) => {
+        dispatch(create(value));
+      });
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, []);
+
   const sortedNotes: Array<NoteInterface> = [];
   notes.forEach((item) => {
-    if (item.isPinned) { sortedNotes.unshift(item); } else { sortedNotes.push(item); }
+    if (item.isPinned) {
+      sortedNotes.unshift(item);
+    } else {
+      sortedNotes.push(item);
+    }
   });
   return (
     <Container>

@@ -1,12 +1,10 @@
 interface actionInterface {
     type: string
     login?: string
-    accessToken?: string
 }
 
 interface authInterface {
     login?: string,
-    accessToken?: string,
     isAuth?: boolean,
 }
 
@@ -15,7 +13,6 @@ const logoutType = 'logout';
 
 const defaultState: authInterface = {
   login: '',
-  accessToken: '',
   isAuth: false,
 };
 
@@ -24,12 +21,11 @@ export function userReducer(state: authInterface = defaultState, action: actionI
     case loginType:
       return {
         login: action.login,
-        accessToken: action.accessToken,
         isAuth: true,
       };
     case logoutType:
       return {
-        ...state,
+        login: '',
         isAuth: false,
       };
     default:
@@ -37,9 +33,8 @@ export function userReducer(state: authInterface = defaultState, action: actionI
   }
 }
 
-export const loginAction = (login: string, accessToken: string): actionInterface => ({
+export const loginAction = (login: string): actionInterface => ({
   type: loginType,
   login,
-  accessToken,
 });
 export const logoutAction = (): actionInterface => ({ type: logoutType });

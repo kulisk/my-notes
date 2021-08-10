@@ -1,9 +1,9 @@
 import { NoteInterface } from '../components/Note';
 
 interface Action {
-  type: string
-  id?: number
-  note: NoteInterface
+    type: string
+    id?: number
+    note: NoteInterface
 }
 
 const PIN = 'pin';
@@ -11,53 +11,7 @@ const REMOVE = 'remove';
 const COPY = 'copy';
 const CREATE = 'create';
 
-const defaultState: Array<NoteInterface> = [
-  {
-    id: 1,
-    isPinned: true,
-    title: 'title1',
-    tags: [
-      'tag1',
-      'tag2',
-    ],
-    content: 'They told him don\'t you ever come around here\n'
-        + 'Don\'t wanna see your face, you better disappear\n'
-        + 'The fire\'s in their eyes and their words are really clear\n'
-        + 'So beat it, just beat it',
-  },
-  {
-    id: 2,
-    isPinned: false,
-    title: 'title2',
-    tags: [
-      'tag1',
-      'tag2',
-      'tag3',
-    ],
-    content: '',
-  },
-  {
-    id: 3,
-    isPinned: true,
-    title: 'title3',
-    tags: [
-      'tag1',
-      'tag2',
-      'tag3',
-    ],
-    content: '',
-  },
-  {
-    id: 4,
-    isPinned: false,
-    title: 'title4',
-    tags: [
-      'tag1',
-      'tag2',
-    ],
-    content: '',
-  },
-];
+const defaultState: NoteInterface[] = [];
 
 export function noteReducer(state = defaultState, action: Action): Array<NoteInterface> {
   function getMaxId() {

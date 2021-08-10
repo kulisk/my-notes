@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { loginAction } from '../reducers/UserReducer';
 import AuthForm from '../components/AuthForm';
 import AuthButton from '../components/AuthButton';
@@ -33,7 +33,7 @@ const Login = (): JSX.Element => {
   function onLoginClick() {
     signIn(postData).then((response) => {
       localStorage.setItem('accessToken', response.data.accessToken);
-      dispatch(loginAction(response.data.login, response.data.accessToken));
+      dispatch(loginAction(response.data.login));
     }).catch((e) => {
       console.log(e);
     });

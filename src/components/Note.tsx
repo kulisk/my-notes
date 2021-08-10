@@ -85,8 +85,8 @@ const Note: React.FC<NoteInterface> = ({
         <Heading color={colors.primary} className="ms-5">{title}</Heading>
         <div className="tagsWrapper">
           {
-                            tags?.map((item) => <Tag key={item}>{item}</Tag>)
-                        }
+                        tags?.map((item) => <Tag key={item}>{item}</Tag>)
+                    }
         </div>
       </NavLink>
       <div className="d-flex justify-content-end flex-grow-1">

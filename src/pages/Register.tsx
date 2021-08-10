@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import AuthButton from '../components/AuthButton';
 import RegularText from '../components/RegularText';
 import { colors } from '../styles/variables';
 import AuthForm from '../components/AuthForm';
 import TextInputItem from '../components/TextInputItem';
-import { signIn } from '../http';
-import { loginAction } from '../reducers/UserReducer';
+import { signUp } from '../http';
 
 const Register = (): JSX.Element => {
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const dispatch = useDispatch();
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>,
     callback: React.Dispatch<React.SetStateAction<string>>) => {
@@ -31,6 +27,12 @@ const Register = (): JSX.Element => {
     if (password !== confirmPassword) {
       console.log('Password mismatch');
     }
+
+    signUp(postData).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   return (
