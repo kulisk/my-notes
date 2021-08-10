@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { ChangeEvent, ChangeEventHandler } from 'react';
 import styled from 'styled-components';
 import { colors } from '../styles/variables';
 
 interface TextAreaInterface {
     style?: React.CSSProperties
     value?: string
+    onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 const StyledTextArea = styled.textarea<TextAreaInterface>`
@@ -26,8 +27,9 @@ const StyledTextArea = styled.textarea<TextAreaInterface>`
 const TextArea: React.FC<TextAreaInterface> = ({
   style,
   value,
+  onChange,
 }) => (
-  <StyledTextArea style={style} defaultValue={value} />
+  <StyledTextArea style={style} defaultValue={value} onChange={onChange} />
 );
 
 export default TextArea;

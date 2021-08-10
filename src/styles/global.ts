@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { colors } from './variables';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -27,6 +28,21 @@ const GlobalStyle = createGlobalStyle`
   button:focus,
   textarea:focus {
     outline: none;
+  }
+
+  .customTagsInput {
+    border: 0.1rem solid ${colors.primaryLight};
+    border-radius: 0.3rem;
+    width: 100%;
+    height: 40px;
+    font-size: 2.4rem;
+    font-weight: 500;
+    color: #000;
+    transition: 0.2s linear all;
+
+    &:focus {
+      border: 0.1rem solid ${colors.primary}
+    }
   }
 
   .color-primary {

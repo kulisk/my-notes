@@ -30,3 +30,4 @@ notesHttp.interceptors.request.use(authInterceptor, (error) => {
 });
 
 export const getAllNotes = (): Promise<AxiosResponse> => notesHttp.get('notes');
+export const deleteNote = (id: number): Promise<AxiosResponse> => notesHttp.delete(`notes/${id}`);

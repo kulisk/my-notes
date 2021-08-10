@@ -8,6 +8,7 @@ import Heading from './Heading';
 import Tag from './Tag';
 import { EDIT_ROUTE } from '../const/routes';
 import { copy, pin, remove } from '../reducers/NoteReducer';
+import { deleteNote } from '../http';
 
 export interface NoteInterface {
     id: number
@@ -54,7 +55,12 @@ const Note: React.FC<NoteInterface> = ({
   const dispatch = useDispatch();
 
   function onDeleteClick() {
-    dispatch(remove(id));
+    deleteNote(id).then((response) => {
+      console.log(response);
+      dispatch(remove(id));
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   function onPinClick() {

@@ -5,17 +5,13 @@ import { colors } from '../styles/variables';
 import AuthForm from '../components/AuthForm';
 import TextInputItem from '../components/TextInputItem';
 import { signUp } from '../http';
+import { onChangeHandler } from '../shared';
 
 const Register = (): JSX.Element => {
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>,
-    callback: React.Dispatch<React.SetStateAction<string>>) => {
-    callback(event.target.value);
-  };
 
   const postData = {
     login,
