@@ -17,6 +17,7 @@ const Header: React.FC = () => {
 
   function onLogoutClick() {
     dispatch(logoutAction());
+    localStorage.removeItem('accessToken');
   }
 
   return (

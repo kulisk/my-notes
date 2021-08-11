@@ -5,8 +5,11 @@ import { colors } from '../styles/variables';
 interface TextInputInterface {
     type: string
     style?: React.CSSProperties
+    defaultValue?: string
     value?: string
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onKeyUp?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+
 }
 
 const StyledTextInput = styled.input<TextInputInterface>`
@@ -28,13 +31,17 @@ const TextInput: React.FC<TextInputInterface> = ({
   type,
   style,
   value,
+  defaultValue,
   onChange,
+  onKeyUp,
 }) => (
   <StyledTextInput
     style={style}
     type={type}
-    defaultValue={value}
+    value={value}
+    defaultValue={defaultValue}
     onChange={onChange}
+    onKeyUp={onKeyUp}
   />
 );
 

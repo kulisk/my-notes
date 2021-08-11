@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { LoginDataInterface, SignUpDataInterface } from '../interfaces';
+import { CreateDataInterface, LoginDataInterface, SignUpDataInterface } from '../interfaces';
 
 const authInterceptor = (config: AxiosRequestConfig): AxiosRequestConfig => {
   const token = localStorage.getItem('accessToken');
@@ -31,3 +31,5 @@ notesHttp.interceptors.request.use(authInterceptor, (error) => {
 
 export const getAllNotes = (): Promise<AxiosResponse> => notesHttp.get('notes');
 export const deleteNote = (id: number): Promise<AxiosResponse> => notesHttp.delete(`notes/${id}`);
+export const createNote = (data: FormData): Promise<AxiosResponse> => notesHttp.post('notes', data);
+// export const createNote = (data: CreateDataInterface): Promise<AxiosResponse> => notesHttp.post('notes', data);

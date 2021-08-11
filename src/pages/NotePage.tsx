@@ -24,12 +24,12 @@ const NotePage: React.FC = () => {
         <Heading>Editing</Heading>
       </ContentHeader>
       <RegularText color={colors.primary}>Note title</RegularText>
-      <TextInput type="text" style={{ marginBottom: '7rem' }} value={note.title} />
+      <TextInput type="text" style={{ marginBottom: '7rem' }} defaultValue={note.title} />
       <RegularText color={colors.primary}>Tags</RegularText>
       {
                 note.tags && note.tags.map((item, index, array) => (index === array.length - 1
-                  ? <TextInput key={item} type="text" style={{ marginBottom: '7rem' }} value={item} />
-                  : <TextInput key={item} type="text" style={{ marginBottom: '1.5rem' }} value={item} />))
+                  ? <TextInput key={item} type="text" style={{ marginBottom: '7rem' }} defaultValue={item} />
+                  : <TextInput key={item} type="text" style={{ marginBottom: '1.5rem' }} defaultValue={item} />))
             }
       <RegularText color={colors.primary}>Images: PNG, JPG, JPEG</RegularText>
       <TextArea style={{ marginBottom: '7rem' }} />
