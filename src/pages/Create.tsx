@@ -55,14 +55,23 @@ const Create: React.FC = () => {
 
   function onCreateClick() {
     const postData = new FormData();
+    const filesArray = Array.prototype.slice.call(files);
+
     postData.append('title', title);
-    // postData.append('tags', ' '.join(tags));
-    // const arrayFiles = Array.from(files);
-    // postData.append('files', files);
     postData.append('content', content);
+
+    tags.forEach((value) => postData.append('tags', value));
+    filesArray.forEach((value) => {
+      postData.append('files', value);
+    });
     createNote(postData).then((response) => {
       console.log(response);
-      // const newNote: NoteInterfac
+      // const newNote: NoteInterface = {
+      //   id: response.data.id,
+      //   tags,
+      //   title,
+      //   content,
+      // };
       // dispatch(create(newNote));
       history.push(HOME_ROUTE);
     }).catch((e) => {
