@@ -19,11 +19,14 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     getAllNotes().then((response) => {
-      const notesDb: NoteInterface[] = response.data;
       if (notes.length > 0) {
         return;
       }
-      notesDb.forEach((value) => {
+      const notesDb = response.data;
+      for (let i = 0; i < notesDb.length; i += 1) {
+        notesDb[i].tags = JSON.parse(notesDb[i].tags);
+      }
+      notesDb.forEach((value: NoteInterface) => {
         dispatch(create(value));
       });
     }).catch((error) => {

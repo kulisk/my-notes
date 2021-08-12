@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import { colors } from './variables';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -32,6 +31,13 @@ const GlobalStyle = createGlobalStyle`
 
   .color-primary {
     background-color: #530086;
+  }
+
+  .tagsContainer {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    margin: 2rem 0 2rem;
   }
 
   @font-face {
