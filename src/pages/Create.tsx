@@ -9,7 +9,7 @@ import TextInput from '../components/TextInput';
 import TextArea from '../components/TextArea';
 import Button from '../components/Button';
 import { colors } from '../styles/variables';
-import { onChangeHandler } from '../shared';
+import { onChangeHandler, onTextareaChange } from '../shared';
 import 'react-bootstrap-tagsinput/dist/index.css';
 import FileInput from '../components/FileInput';
 import Tag from '../components/Tag';
@@ -27,10 +27,6 @@ const Create: React.FC = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-
-  function onTextareaChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    setContent(event.target.value);
-  }
 
   function addTag(event: React.KeyboardEvent<HTMLInputElement>) {
     const { key } = event;
@@ -101,7 +97,7 @@ const Create: React.FC = () => {
       <RegularText color={colors.primary}>Note content</RegularText>
       <TextArea
         style={{ marginBottom: '7rem' }}
-        onChange={(event: ChangeEvent<HTMLTextAreaElement>) => onTextareaChange(event)}
+        onChange={(event: ChangeEvent<HTMLTextAreaElement>) => onTextareaChange(event, setContent)}
       />
 
       <div className="d-flex justify-content-end" style={{ marginBottom: '7rem' }}>

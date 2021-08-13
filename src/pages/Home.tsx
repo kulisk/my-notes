@@ -63,6 +63,7 @@ const Home = (): JSX.Element => {
                     tags={item.tags}
                     key={item.id}
                     id={item.id}
+                    content={item.content}
                   />
                 ))
             }

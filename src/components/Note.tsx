@@ -13,9 +13,9 @@ import { deleteNote } from '../http';
 export interface NoteInterface {
     id: number
     isPinned?: boolean,
-    title?: string
-    tags?: Array<string>
-    content?: string
+    title: string
+    tags: Array<string>
+    content: string
 }
 
 interface NoteStyle {

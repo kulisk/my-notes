@@ -10,6 +10,7 @@ const PIN = 'pin';
 const REMOVE = 'remove';
 const COPY = 'copy';
 const CREATE = 'create';
+const updateAction = 'update';
 
 const defaultState: NoteInterface[] = [];
 
@@ -42,6 +43,19 @@ export function noteReducer(state = defaultState, action: Action): Array<NoteInt
       return state
         .slice(0, state.length)
         .concat([action.note]);
+    case updateAction:
+      return state.map((item) => {
+        if (item.id !== action.id) {
+          return item;
+        }
+        return {
+          ...item,
+          isPinned: item.isPinned,
+          title: item.title,
+          content: item.content,
+          tags: item.tags,
+        };
+      });
     default:
       return state;
   }
@@ -51,3 +65,4 @@ export const pin = (id: number) => ({ type: PIN, id });
 export const remove = (id: number) => ({ type: REMOVE, id });
 export const copy = (id: number) => ({ type: COPY, id });
 export const create = (note: NoteInterface) => ({ type: CREATE, note });
+export const update = (id: number, note: NoteInterface) => ({ type: updateAction, id, note });

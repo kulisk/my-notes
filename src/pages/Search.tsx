@@ -10,7 +10,7 @@ import { CREATE_ROUTE, EDIT_ROUTE } from '../const/routes';
 import Search from '../components/Search';
 import Paginator from '../components/Paginator';
 
-const SearchPage = () => {
+const SearchPage: React.FC = () => {
   const notes = useSelector((state: RootState) => state.notes);
   const sortedNotes: Array<NoteInterface> = [];
   notes.forEach((item) => {
@@ -40,6 +40,7 @@ const SearchPage = () => {
                       title={item.title}
                       tags={item.tags}
                       id={item.id}
+                      content={item.content}
                     />
                   </NavLink>
                 ))

@@ -39,6 +39,18 @@ const GlobalStyle = createGlobalStyle`
     height: 30px;
     margin: 2rem 0 2rem;
   }
+  
+  .removeButton {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 2.4rem;
+    line-height: 2.4rem;
+  }
+  
+  .react-photo-gallery--gallery img {
+    object-fit: contain;
+  }
 
   @font-face {
     font-family: 'Roboto';
