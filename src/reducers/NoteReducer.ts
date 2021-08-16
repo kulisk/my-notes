@@ -50,10 +50,10 @@ export function noteReducer(state = defaultState, action: Action): Array<NoteInt
         }
         return {
           ...item,
-          isPinned: item.isPinned,
-          title: item.title,
-          content: item.content,
-          tags: item.tags,
+          // isPinned: action.note.isPinned,
+          title: action.note.title,
+          content: action.note.content,
+          tags: action.note.tags,
         };
       });
     default:

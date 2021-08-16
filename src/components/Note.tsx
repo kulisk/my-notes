@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Icon from './Icon';
 import { colors } from '../styles/variables';
 import Heading from './Heading';
 import Tag from './Tag';
 import { EDIT_ROUTE } from '../const/routes';
 import { copy, pin, remove } from '../reducers/NoteReducer';
-import { deleteNote } from '../http';
+import { deleteNote, updateNote } from '../http';
+import { RootState } from '../reducers/store';
 
 export interface NoteInterface {
     id: number
@@ -53,10 +54,10 @@ const Note: React.FC<NoteInterface> = ({
   id,
 }) => {
   const dispatch = useDispatch();
+  const note = useSelector((state: RootState) => state.notes.filter((element) => element.id === +id)[0]);
 
   function onDeleteClick() {
-    deleteNote(id).then((response) => {
-      console.log(response);
+    deleteNote(id).then(() => {
       dispatch(remove(id));
     }).catch((error) => {
       console.log(error);
@@ -64,7 +65,13 @@ const Note: React.FC<NoteInterface> = ({
   }
 
   function onPinClick() {
-    dispatch(pin(id));
+    const updateData = new FormData();
+    updateData.append('isPinned', JSON.stringify(!note.isPinned));
+    updateNote(id.toString(), updateData).then(() => {
+      dispatch(pin(id));
+    }).catch((e) => {
+      console.log(e);
+    });
   }
 
   function onCopyClick() {

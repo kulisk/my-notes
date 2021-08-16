@@ -27,6 +27,10 @@ interface ImageInterface {
     customName: string
 }
 
+interface PhotoInterface {
+    index: number
+}
+
 interface ImageSetInterface {
     src: string
     width: number
@@ -43,6 +47,7 @@ const NotePage: React.FC = () => {
   const [files, setFiles] = useState<FileList | null>(null);
   const [content, setContent] = useState(note.content);
   const [images, setImages] = useState<ImageInterface[]>([]);
+  const [imagesToDelete, setImagesToDelete] = useState<ImageInterface[]>([]);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -69,6 +74,11 @@ const NotePage: React.FC = () => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
+  const removeImage = (event: React.MouseEvent<Element, MouseEvent>, photos: PhotoInterface) => {
+    setImages(images.filter((image, index) => index !== photos.index));
+    setImagesToDelete((oldImagesToDelete) => [...oldImagesToDelete, images[photos.index]]);
+  };
+
   const imagesSet: ImageSetInterface[] = images.map((value) => ({
     src: process.env.REACT_APP_API_URL + value.customName,
     width: 1,
@@ -84,11 +94,10 @@ const NotePage: React.FC = () => {
       });
     }
     updateData.append('title', title);
-
     updateData.append('content', content);
     updateData.append('tags', JSON.stringify(tags));
-    updateNote(id, updateData).then((response) => {
-      console.log(response);
+    updateData.append('imagesToDelete', JSON.stringify(imagesToDelete));
+    updateNote(id, updateData).then(() => {
       const updatedNote: NoteInterface = {
         id: +id,
         tags,
@@ -134,7 +143,7 @@ const NotePage: React.FC = () => {
       <RegularText color={colors.primary}>Images: PNG, JPG, JPEG</RegularText>
       <Gallery
         photos={imagesSet}
-        // onClick={(event, photos) => removeImage(event, photos)}
+        onClick={(event, photos) => removeImage(event, photos)}
       />
       <FileInput
         files={files}
