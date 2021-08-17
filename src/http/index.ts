@@ -34,3 +34,4 @@ export const deleteNote = (id: number): Promise<AxiosResponse> => notesHttp.dele
 export const createNote = (data: FormData): Promise<AxiosResponse> => notesHttp.post('notes', data);
 export const getOneNote = (id: number): Promise<AxiosResponse> => notesHttp.get(`notes/${id}`);
 export const updateNote = (id: string, data: FormData): Promise<AxiosResponse> => notesHttp.patch(`notes/${id}`, data);
+export const copyNote = (id: number): Promise<AxiosResponse> => notesHttp.post(`notes/${id}`);

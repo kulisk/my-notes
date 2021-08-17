@@ -8,7 +8,7 @@ import Heading from './Heading';
 import Tag from './Tag';
 import { EDIT_ROUTE } from '../const/routes';
 import { copy, pin, remove } from '../reducers/NoteReducer';
-import { deleteNote, updateNote } from '../http';
+import { copyNote, deleteNote, updateNote } from '../http';
 import { RootState } from '../reducers/store';
 
 export interface NoteInterface {
@@ -75,7 +75,13 @@ const Note: React.FC<NoteInterface> = ({
   }
 
   function onCopyClick() {
-    dispatch(copy(id));
+    copyNote(id).then((res) => {
+      const duplicate: NoteInterface = res.data;
+      duplicate.tags = JSON.parse(res.data.tags);
+      dispatch(copy(id, duplicate));
+    }).catch((e) => {
+      console.log(e);
+    });
   }
 
   return (
@@ -98,7 +104,7 @@ const Note: React.FC<NoteInterface> = ({
         <Heading color={colors.primary} className="ms-5">{title}</Heading>
         <div className="tagsWrapper">
           {
-                        tags?.map((item) => <Tag key={item}>{item}</Tag>)
+                        tags.length !== 0 && tags.map((item) => <Tag key={item}>{item}</Tag>)
                     }
         </div>
       </NavLink>

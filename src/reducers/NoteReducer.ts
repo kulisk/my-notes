@@ -15,10 +15,6 @@ const updateAction = 'update';
 const defaultState: NoteInterface[] = [];
 
 export function noteReducer(state = defaultState, action: Action): Array<NoteInterface> {
-  function getMaxId() {
-    return Math.max(...state.map((note) => note.id));
-  }
-
   switch (action.type) {
     case PIN:
       return state.map((item) => {
@@ -33,8 +29,7 @@ export function noteReducer(state = defaultState, action: Action): Array<NoteInt
     case REMOVE:
       return state.filter((element) => element.id !== action.id);
     case COPY: {
-      const noteToCopy = { ...state.filter((element) => element.id === action.id)[0] };
-      noteToCopy.id = getMaxId() + 1;
+      const noteToCopy = action.note;
       return state
         .slice(0, state.length)
         .concat([noteToCopy]);
@@ -63,6 +58,6 @@ export function noteReducer(state = defaultState, action: Action): Array<NoteInt
 
 export const pin = (id: number) => ({ type: PIN, id });
 export const remove = (id: number) => ({ type: REMOVE, id });
-export const copy = (id: number) => ({ type: COPY, id });
+export const copy = (id: number, note: NoteInterface) => ({ type: COPY, id, note });
 export const create = (note: NoteInterface) => ({ type: CREATE, note });
 export const update = (id: number, note: NoteInterface) => ({ type: updateAction, id, note });
