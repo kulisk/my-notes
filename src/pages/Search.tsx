@@ -6,7 +6,7 @@ import { RootState } from '../reducers/store';
 import Note, { NoteInterface } from '../components/Note';
 import ContentHeader from '../components/ContentHeader';
 import Icon from '../components/Icon';
-import { CREATE_ROUTE, EDIT_ROUTE } from '../const/routes';
+import { CREATE_ROUTE } from '../const/routes';
 import Search from '../components/Search';
 import Paginator from '../components/Paginator';
 
@@ -30,20 +30,16 @@ const SearchPage: React.FC = () => {
         </div>
       </ContentHeader>
       {
-                sortedNotes.map((item) => (
-                  <NavLink
-                    to={`${EDIT_ROUTE}/${item.id}`}
-                    key={item.id}
-                  >
-                    <Note
-                      isPinned={item.isPinned}
-                      title={item.title}
-                      tags={item.tags}
-                      id={item.id}
-                      content={item.content}
-                    />
-                  </NavLink>
-                ))
+        sortedNotes.map((item) => (
+          <Note
+            isPinned={item.isPinned}
+            title={item.title}
+            tags={item.tags}
+            key={item.id}
+            id={item.id}
+            content={item.content}
+          />
+        ))
             }
       {notes.length > 10 && <Paginator className="mt-5" />}
     </Container>
