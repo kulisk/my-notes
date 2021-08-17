@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
     height: 30px;
     margin: 2rem 0 2rem;
   }
-  
+
   .removeButton {
     border: none;
     outline: none;
@@ -47,9 +47,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: 2.4rem;
     line-height: 2.4rem;
   }
-  
+
   .react-photo-gallery--gallery img {
     object-fit: contain;
+    max-width: 200px;
+    max-height: 200px;
   }
 
   @font-face {
