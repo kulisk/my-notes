@@ -22,7 +22,7 @@ export const authRoutes = [
     Component: Create,
   },
   {
-    path: SEARCH_ROUTE,
+    path: `${SEARCH_ROUTE}/:term`,
     Component: Search,
   },
 ];

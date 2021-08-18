@@ -11,7 +11,7 @@ import Search from '../components/Search';
 import Paginator from '../components/Paginator';
 
 const SearchPage: React.FC = () => {
-  const notes = useSelector((state: RootState) => state.notes);
+  const notes = useSelector((state: RootState) => state.search.notes);
   const sortedNotes: Array<NoteInterface> = [];
   notes.forEach((item) => {
     if (item.isPinned) { sortedNotes.unshift(item); } else { sortedNotes.push(item); }
