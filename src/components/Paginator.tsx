@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Icon from './Icon';
 import PaginatorButton from './PaginatorButton';
-import RegularText from './RegularText';
-import { colors } from '../styles/variables';
+import { goToPage } from '../reducers/NoteReducer';
 
 interface PaginatorInterface {
     className?: string
@@ -20,7 +20,13 @@ interface StyledPaginatorInterface {
 const StyledPaginator = styled.div<StyledPaginatorInterface>`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+
+  .flexEndWrapper {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
 `;
 
 const Paginator: React.FC<PaginatorInterface> = ({
@@ -28,58 +34,37 @@ const Paginator: React.FC<PaginatorInterface> = ({
   currentPage,
   totalPages,
   route,
-}) => (
-  <StyledPaginator className={className}>
-    <PaginatorButton className="me-5">
-      <Icon src="/icons/back.svg" notHover />
-    </PaginatorButton>
-    <div className="d-flex">
+}) => {
+  const dispatch = useDispatch();
+  const onPaginatorClick = (page: number) => {
+    dispatch(goToPage(page));
+  };
+
+  return (
+    <StyledPaginator className={className}>
+
       {
-                currentPage !== 1 && (
-                <NavLink
-                  to={`${route}${currentPage - 1}`}
-                >
-                  <PaginatorButton>{currentPage - 1}</PaginatorButton>
+                (currentPage > 1 && (
+                <NavLink to={`${route}${currentPage - 1}`}>
+                  <PaginatorButton onClick={() => onPaginatorClick(currentPage - 1)}>
+                    <Icon src="/icons/back.svg" notHover />
+                  </PaginatorButton>
                 </NavLink>
-                )
+                ))
             }
-      <div>
-        <NavLink
-          to={`${route}${currentPage}`}
-        >
-          <PaginatorButton>{currentPage}</PaginatorButton>
-        </NavLink>
-      </div>
-      {
-                currentPage !== totalPages && (
-                <NavLink
-                  to={`${route}${currentPage + 1}`}
-                >
-                  <PaginatorButton>{currentPage + 1}</PaginatorButton>
-                </NavLink>
-                )
-            }
-      {
-                currentPage !== totalPages - 1 && currentPage !== totalPages && (
-                <div style={{ margin: '0 1rem', display: 'flex', alignItems: 'center' }}>
-                  <RegularText color={colors.primary}>...</RegularText>
-                </div>
-                )
-            }
-      {
-                currentPage !== totalPages && currentPage !== totalPages - 1 && (
-                <NavLink
-                  to={`${route}${totalPages}`}
-                >
-                  <PaginatorButton>{totalPages}</PaginatorButton>
-                </NavLink>
-                )
-            }
-    </div>
-    <PaginatorButton className="ms-5">
-      <Icon src="/icons/next.svg" notHover />
-    </PaginatorButton>
-  </StyledPaginator>
-);
+
+      {currentPage < totalPages && (
+        <div className="flexEndWrapper">
+          <NavLink to={`${route}${currentPage + 1}`}>
+            <PaginatorButton onClick={() => onPaginatorClick(currentPage + 1)}>
+              <Icon src="/icons/next.svg" notHover />
+            </PaginatorButton>
+          </NavLink>
+        </div>
+      )}
+
+    </StyledPaginator>
+  );
+};
 
 export default Paginator;

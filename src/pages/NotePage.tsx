@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Gallery from 'react-photo-gallery';
 import ContentHeader from '../components/ContentHeader';
@@ -10,7 +10,6 @@ import { colors } from '../styles/variables';
 import TextInput from '../components/TextInput';
 import TextArea from '../components/TextArea';
 import Button from '../components/Button';
-import { RootState } from '../reducers/store';
 import FileInput from '../components/FileInput';
 import { getOneNote, updateNote } from '../http';
 import Tag from '../components/Tag';
@@ -39,13 +38,12 @@ interface ImageSetInterface {
 
 const NotePage: React.FC = () => {
   const { id } = useParams<Note>();
-  const note = useSelector((state: RootState) => state.notes.notes.filter((element) => element.id === +id)[0]);
 
-  const [title, setTitle] = useState(note.title);
+  const [title, setTitle] = useState('');
   const [tag, setTag] = useState('');
-  const [tags, setTags] = useState<string[]>(note.tags);
+  const [tags, setTags] = useState<string[]>([]);
   const [files, setFiles] = useState<FileList | null>(null);
-  const [content, setContent] = useState(note.content);
+  const [content, setContent] = useState('');
   const [images, setImages] = useState<ImageInterface[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<ImageInterface[]>([]);
 
@@ -54,11 +52,14 @@ const NotePage: React.FC = () => {
 
   useEffect(() => {
     getOneNote(+id).then((response) => {
+      setTitle(response.data.title);
+      setTags(JSON.parse(response.data.tags));
+      setContent(response.data.content);
       setImages(response.data.images);
-    }).catch((e) => {
-      console.log(e);
+    }).catch((error) => {
+      console.log('Get images error', error);
     });
-  }, []);
+  }, [id]);
 
   function addTag(event: React.KeyboardEvent<HTMLInputElement>) {
     const { key } = event;
@@ -106,8 +107,8 @@ const NotePage: React.FC = () => {
       };
       dispatch(update(+id, updatedNote));
       history.push(HOME_ROUTE);
-    }).catch((e) => {
-      console.log(e);
+    }).catch((error) => {
+      console.log('Update note error', error);
     });
   };
   return (
@@ -119,7 +120,7 @@ const NotePage: React.FC = () => {
       <TextInput
         type="text"
         style={{ marginBottom: '7rem' }}
-        defaultValue={title}
+        value={title}
         onChange={(event) => onChangeHandler(event, setTitle)}
       />
 

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { colors } from '../styles/variables';
 
 interface PaginatorButtonInterface {
-    className?: string
+    onClick?: () => void
 }
 
 const StyledPaginatorButton = styled.div<PaginatorButtonInterface>`
@@ -18,11 +18,7 @@ const StyledPaginatorButton = styled.div<PaginatorButtonInterface>`
   font-size: 3rem;
   font-weight: 700;
   color: ${colors.primary};
-  margin-right: 1rem;
-  
-  //&:last-child{
-  //  margin-right: 0;
-  //}
+
   &:hover {
     background-color: ${colors.primaryLight};
   }
@@ -30,9 +26,9 @@ const StyledPaginatorButton = styled.div<PaginatorButtonInterface>`
 
 const PaginatorButton: React.FC<PaginatorButtonInterface> = ({
   children,
-  className,
+  onClick,
 }) => (
-  <StyledPaginatorButton className={className}>
+  <StyledPaginatorButton onClick={onClick}>
     {children}
   </StyledPaginatorButton>
 );
