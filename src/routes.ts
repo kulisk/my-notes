@@ -14,6 +14,10 @@ export const authRoutes = [
     Component: Home,
   },
   {
+    path: `${HOME_ROUTE}:page`,
+    Component: Home,
+  },
+  {
     path: `${EDIT_ROUTE}/:id`,
     Component: NotePage,
   },

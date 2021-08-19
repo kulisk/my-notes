@@ -39,7 +39,7 @@ interface ImageSetInterface {
 
 const NotePage: React.FC = () => {
   const { id } = useParams<Note>();
-  const note = useSelector((state: RootState) => state.notes.filter((element) => element.id === +id)[0]);
+  const note = useSelector((state: RootState) => state.notes.notes.filter((element) => element.id === +id)[0]);
 
   const [title, setTitle] = useState(note.title);
   const [tag, setTag] = useState('');

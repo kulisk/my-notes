@@ -20,9 +20,9 @@ const StyledPaginatorButton = styled.div<PaginatorButtonInterface>`
   color: ${colors.primary};
   margin-right: 1rem;
   
-  &:last-child{
-    margin-right: 0;
-  }
+  //&:last-child{
+  //  margin-right: 0;
+  //}
   &:hover {
     background-color: ${colors.primaryLight};
   }

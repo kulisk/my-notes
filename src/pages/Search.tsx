@@ -41,7 +41,7 @@ const SearchPage: React.FC = () => {
           />
         ))
             }
-      {notes.length > 10 && <Paginator className="mt-5" />}
+      {/* {notes.length > 10 && <Paginator className="mt-5" />} */}
     </Container>
   );
 };

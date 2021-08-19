@@ -1,29 +1,37 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { RootState } from '../reducers/store';
 import Note, { NoteInterface } from '../components/Note';
 import ContentHeader from '../components/ContentHeader';
 import Icon from '../components/Icon';
-import { CREATE_ROUTE } from '../const/routes';
+import { CREATE_ROUTE, HOME_ROUTE } from '../const/routes';
 import Search from '../components/Search';
 import Paginator from '../components/Paginator';
-import { getAllNotes } from '../http';
-import { create } from '../reducers/NoteReducer';
+import { getAllNotesInPage, getCountNotes } from '../http';
+import { create, setTotalCount } from '../reducers/NoteReducer';
+import { NOTES_PER_PAGE } from '../const/numbers';
 
-const Home = (): JSX.Element => {
+interface Params {
+    page?: string
+}
+
+const Home: React.FC = () => {
+  const params = useParams<Params>();
+  const page = params.page ? +params.page : 1;
   const dispatch = useDispatch();
 
-  const notes = useSelector((state: RootState) => state.notes);
+  const notesInPage = useSelector((state: RootState) => state.notes.notes);
+  const countNotes = useSelector((state: RootState) => state.notes.totalCount);
 
   useEffect(() => {
-    getAllNotes().then((response) => {
-      if (notes.length > 0) {
+    getAllNotesInPage(page).then((response) => {
+      if (notesInPage.length > 0) {
         return;
       }
       const notesDb = response.data;
-      for (let i = 0; i < notesDb.length; i += 1) {
+      for (let i = 0; i < notesDb.length; i++) {
         notesDb[i].tags = JSON.parse(notesDb[i].tags);
       }
       notesDb.forEach((value: NoteInterface) => {
@@ -32,16 +40,13 @@ const Home = (): JSX.Element => {
     }).catch((error) => {
       console.log(error);
     });
-  }, []);
 
-  const sortedNotes: Array<NoteInterface> = [];
-  notes.forEach((item) => {
-    if (item.isPinned) {
-      sortedNotes.unshift(item);
-    } else {
-      sortedNotes.push(item);
-    }
-  });
+    getCountNotes().then((res) => {
+      dispatch(setTotalCount(res.data));
+    }).catch((error) => {
+      console.log('Error in counting notes', error);
+    });
+  }, [page, dispatch, notesInPage.length]);
   return (
     <Container>
       <ContentHeader>
@@ -56,7 +61,7 @@ const Home = (): JSX.Element => {
         </div>
       </ContentHeader>
       {
-                sortedNotes.map((item) => (
+                notesInPage.map((item) => (
                   <Note
                     isPinned={item.isPinned}
                     title={item.title}
@@ -67,7 +72,14 @@ const Home = (): JSX.Element => {
                   />
                 ))
             }
-      {notes.length > 10 && <Paginator className="mt-5" />}
+      {countNotes > NOTES_PER_PAGE && (
+        <Paginator
+          className="mt-5"
+          route={HOME_ROUTE}
+          totalPages={countNotes / NOTES_PER_PAGE}
+          currentPage={page}
+        />
+      )}
     </Container>
   );
 };

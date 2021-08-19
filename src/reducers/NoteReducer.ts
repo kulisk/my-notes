@@ -4,53 +4,82 @@ interface Action {
     type: string
     id?: number
     note: NoteInterface
+    totalCount: number
+}
+
+interface State {
+    notes: NoteInterface[],
+    totalCount: number
 }
 
 const PIN = 'pin';
 const REMOVE = 'remove';
-const COPY = 'copy';
 const CREATE = 'create';
+const COPY = 'copy';
 const updateAction = 'update';
+const SET_TOTAL_COUNT = 'setTotalCount';
 
-const defaultState: NoteInterface[] = [];
+const defaultState: State = {
+  notes: [],
+  totalCount: 0,
+};
 
-export function noteReducer(state = defaultState, action: Action): Array<NoteInterface> {
+export function noteReducer(state = defaultState, action: Action): State {
   switch (action.type) {
+    case SET_TOTAL_COUNT:
+      return {
+        ...state,
+        totalCount: action.totalCount,
+      };
     case PIN:
-      return state.map((item) => {
-        if (item.id !== action.id) {
-          return item;
-        }
-        return {
-          ...item,
-          isPinned: !item.isPinned,
-        };
-      });
+      return {
+        ...state,
+        notes: state.notes.map((item) => {
+          if (item.id !== action.id) {
+            return item;
+          }
+          return {
+            ...item,
+            isPinned: !item.isPinned,
+          };
+        }),
+      };
     case REMOVE:
-      return state.filter((element) => element.id !== action.id);
+      return {
+        totalCount: state.totalCount - 1,
+        notes: state.notes.filter((element) => element.id !== action.id),
+      };
     case COPY: {
       const noteToCopy = action.note;
-      return state
-        .slice(0, state.length)
-        .concat([noteToCopy]);
+      return {
+        totalCount: state.totalCount + 1,
+        notes: state.notes
+          .slice(0, state.notes.length)
+          .concat([noteToCopy]),
+      };
     }
     case CREATE:
-      return state
-        .slice(0, state.length)
-        .concat([action.note]);
+      return {
+        totalCount: state.totalCount + 1,
+        notes: state.notes
+          .slice(0, state.notes.length)
+          .concat([action.note]),
+      };
     case updateAction:
-      return state.map((item) => {
-        if (item.id !== action.id) {
-          return item;
-        }
-        return {
-          ...item,
-          // isPinned: action.note.isPinned,
-          title: action.note.title,
-          content: action.note.content,
-          tags: action.note.tags,
-        };
-      });
+      return {
+        ...state,
+        notes: state.notes.map((item) => {
+          if (item.id !== action.id) {
+            return item;
+          }
+          return {
+            ...item,
+            title: action.note.title,
+            content: action.note.content,
+            tags: action.note.tags,
+          };
+        }),
+      };
     default:
       return state;
   }
@@ -61,3 +90,4 @@ export const remove = (id: number) => ({ type: REMOVE, id });
 export const copy = (id: number, note: NoteInterface) => ({ type: COPY, id, note });
 export const create = (note: NoteInterface) => ({ type: CREATE, note });
 export const update = (id: number, note: NoteInterface) => ({ type: updateAction, id, note });
+export const setTotalCount = (totalCount: number) => ({ type: SET_TOTAL_COUNT, totalCount });

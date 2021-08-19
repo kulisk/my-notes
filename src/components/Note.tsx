@@ -54,7 +54,7 @@ const Note: React.FC<NoteInterface> = ({
   id,
 }) => {
   const dispatch = useDispatch();
-  const note = useSelector((state: RootState) => state.notes.filter((element) => element.id === +id)[0]);
+  const note = useSelector((state: RootState) => state.notes.notes.filter((element) => element.id === +id)[0]);
 
   function onDeleteClick() {
     deleteNote(id).then(() => {

@@ -29,10 +29,11 @@ notesHttp.interceptors.request.use(authInterceptor, (error) => {
   Promise.reject(error).then();
 });
 
-export const getAllNotes = (): Promise<AxiosResponse> => notesHttp.get('notes');
+export const getAllNotesInPage = (page: number): Promise<AxiosResponse> => notesHttp.get(`notes/${page}`);
 export const deleteNote = (id: number): Promise<AxiosResponse> => notesHttp.delete(`notes/${id}`);
 export const createNote = (data: FormData): Promise<AxiosResponse> => notesHttp.post('notes', data);
 export const getOneNote = (id: number): Promise<AxiosResponse> => notesHttp.get(`notes/${id}`);
 export const updateNote = (id: string, data: FormData): Promise<AxiosResponse> => notesHttp.patch(`notes/${id}`, data);
 export const copyNote = (id: number): Promise<AxiosResponse> => notesHttp.post(`notes/${id}`);
 export const searchNotes = (term: string): Promise<AxiosResponse> => notesHttp.get(`notes/search/${term}`);
+export const getCountNotes = (): Promise<AxiosResponse> => notesHttp.get('notes/count/getCount');
