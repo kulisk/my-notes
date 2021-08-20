@@ -1,20 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { NavLink, useParams } from 'react-router-dom';
 import Icon from './Icon';
 import PaginatorButton from './PaginatorButton';
-import { goToPage } from '../reducers/NoteReducer';
+import { HOME_ROUTE } from '../const/routes';
 
 interface PaginatorInterface {
     className?: string
     totalPages: number
-    currentPage: number
     route: string
 }
 
 interface StyledPaginatorInterface {
     className?: string
+}
+
+interface Params {
+    page: string
 }
 
 const StyledPaginator = styled.div<StyledPaginatorInterface>`
@@ -31,32 +33,29 @@ const StyledPaginator = styled.div<StyledPaginatorInterface>`
 
 const Paginator: React.FC<PaginatorInterface> = ({
   className,
-  currentPage,
   totalPages,
   route,
 }) => {
-  const dispatch = useDispatch();
-  const onPaginatorClick = (page: number) => {
-    dispatch(goToPage(page));
-  };
-
+  const params: Params = useParams();
+  const page = params.page ? +params.page : 1;
+  const routeService = () => (route === HOME_ROUTE ? route : `${route}/`);
   return (
     <StyledPaginator className={className}>
 
       {
-                (currentPage > 1 && (
-                <NavLink to={`${route}${currentPage - 1}`}>
-                  <PaginatorButton onClick={() => onPaginatorClick(currentPage - 1)}>
+                (page > 1 && (
+                <NavLink to={`${routeService()}${page - 1}`}>
+                  <PaginatorButton>
                     <Icon src="/icons/back.svg" notHover />
                   </PaginatorButton>
                 </NavLink>
                 ))
             }
 
-      {currentPage < totalPages && (
+      {page < totalPages && (
         <div className="flexEndWrapper">
-          <NavLink to={`${route}${currentPage + 1}`}>
-            <PaginatorButton onClick={() => onPaginatorClick(currentPage + 1)}>
+          <NavLink to={`${routeService()}${page + 1}`}>
+            <PaginatorButton>
               <Icon src="/icons/next.svg" notHover />
             </PaginatorButton>
           </NavLink>
@@ -66,5 +65,4 @@ const Paginator: React.FC<PaginatorInterface> = ({
     </StyledPaginator>
   );
 };
-
 export default Paginator;

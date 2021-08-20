@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { RootState } from '../reducers/store';
 import Note from '../components/Note';
 import ContentHeader from '../components/ContentHeader';
@@ -13,10 +13,15 @@ import { getAllNotesInPage, getCountNotes } from '../http';
 import { setNotes, setTotalCount } from '../reducers/NoteReducer';
 import { NOTES_PER_PAGE } from '../const/numbers';
 
+interface Params {
+  page: string
+}
+
 const Home: React.FC = () => {
   const dispatch = useDispatch();
 
-  const page = useSelector((state: RootState) => state.notes.page);
+  const params: Params = useParams();
+  const page = params.page ? +params.page : 1;
   const notesInPage = useSelector((state: RootState) => state.notes.notes);
   const countNotes = useSelector((state: RootState) => state.notes.totalCount);
 
@@ -67,7 +72,6 @@ const Home: React.FC = () => {
           className="mt-5"
           route={HOME_ROUTE}
           totalPages={countNotes / NOTES_PER_PAGE}
-          currentPage={page}
         />
       )}
     </Container>

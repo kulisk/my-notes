@@ -35,5 +35,7 @@ export const createNote = (data: FormData): Promise<AxiosResponse> => notesHttp.
 export const getOneNote = (id: number): Promise<AxiosResponse> => notesHttp.get(`notes/${id}`);
 export const updateNote = (id: string, data: FormData): Promise<AxiosResponse> => notesHttp.patch(`notes/${id}`, data);
 export const copyNote = (id: number): Promise<AxiosResponse> => notesHttp.post(`notes/${id}`);
-export const searchNotes = (term: string): Promise<AxiosResponse> => notesHttp.get(`notes/search/${term}`);
+export const searchNotes = (term: string,
+  page: number): Promise<AxiosResponse> => notesHttp.get(`notes/search/${term}/${page}`);
 export const getCountNotes = (): Promise<AxiosResponse> => notesHttp.get('notes/count/getCount');
+export const getCountSearchNotes = (term: string): Promise<AxiosResponse> => notesHttp.get(`notes/count/getCount/${term}`);

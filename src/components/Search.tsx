@@ -1,13 +1,11 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { NavLink, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { colors } from '../styles/variables';
 import { SEARCH_ROUTE } from '../const/routes';
 import Icon from './Icon';
-import { RootState } from '../reducers/store';
-import { setNotes, setSearchTerm } from '../reducers/SearchReducer';
-import { searchNotes } from '../http';
+import { setSearchTerm } from '../reducers/SearchReducer';
 
 const StyledSearch = styled.div`
   display: flex;
@@ -32,29 +30,17 @@ const StyledSearch = styled.div`
 `;
 
 const Search: React.FC = () => {
+  const [search, setSearch] = useState('');
+
   const dispatch = useDispatch();
   const history = useHistory();
-  const searchTerm = useSelector((state: RootState) => state.search.searchTerm);
 
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchTerm(event.target.value));
-  };
-
-  const sendSearchRequest = () => {
-    searchNotes(searchTerm).then((res) => {
-      const foundNotes = res.data;
-      for (let i = 0; i < foundNotes.length; i++) {
-        foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
-      }
-      dispatch(setNotes(foundNotes));
-      history.push(`${SEARCH_ROUTE}/${searchTerm}`);
-    }).catch((e) => {
-      console.log(e);
-    });
+    setSearch(event.target.value);
   };
 
   const onSearchClick = () => {
-    sendSearchRequest();
+    dispatch(setSearchTerm(search));
   };
 
   function onSearchKeydown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -62,19 +48,20 @@ const Search: React.FC = () => {
     if (key !== 'Enter') {
       return;
     }
-    // event.preventDefault();
-    sendSearchRequest();
+    event.preventDefault();
+    dispatch(setSearchTerm(search));
+    history.push(`${SEARCH_ROUTE}/${search}/1`);
   }
 
   return (
     <StyledSearch>
       <input
         type="text"
-        value={searchTerm}
+        value={search}
         onChange={(event) => onSearchChange(event)}
         onKeyDown={(event) => onSearchKeydown(event)}
       />
-      <NavLink to={`${SEARCH_ROUTE}/${searchTerm}`}>
+      <NavLink to={`${SEARCH_ROUTE}/${search}/1`}>
         <Icon
           src="/icons/loupe.svg"
           width="31"

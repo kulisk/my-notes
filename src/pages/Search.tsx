@@ -1,21 +1,52 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { RootState } from '../reducers/store';
-import Note, { NoteInterface } from '../components/Note';
+import Note from '../components/Note';
 import ContentHeader from '../components/ContentHeader';
 import Icon from '../components/Icon';
-import { CREATE_ROUTE } from '../const/routes';
+import { CREATE_ROUTE, SEARCH_ROUTE } from '../const/routes';
 import Search from '../components/Search';
 import Paginator from '../components/Paginator';
+import { NOTES_PER_PAGE } from '../const/numbers';
+import { getCountSearchNotes, searchNotes } from '../http';
+import { setCount, setNotes } from '../reducers/SearchReducer';
+
+interface Params {
+  term: string
+  page: string
+}
 
 const SearchPage: React.FC = () => {
+  const dispatch = useDispatch();
+  const params: Params = useParams();
+  const searchTerm = params.term;
+  const page = +params.page;
+
   const notes = useSelector((state: RootState) => state.search.notes);
-  const sortedNotes: Array<NoteInterface> = [];
-  notes.forEach((item) => {
-    if (item.isPinned) { sortedNotes.unshift(item); } else { sortedNotes.push(item); }
-  });
+  const countNotes = useSelector((state: RootState) => state.search.foundCount);
+
+  useEffect(() => {
+    if (searchTerm === '') {
+      return;
+    }
+    searchNotes(searchTerm, page).then((response) => {
+      const foundNotes = response.data;
+      for (let i = 0; i < foundNotes.length; i++) {
+        foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
+      }
+      dispatch(setNotes(foundNotes));
+    }).catch((error) => {
+      console.log('Search notes error', error);
+    });
+
+    getCountSearchNotes(searchTerm).then((response) => {
+      dispatch(setCount(response.data));
+    }).catch((error) => {
+      console.log('Count search notes error', error);
+    });
+  }, [searchTerm, page, dispatch]);
   return (
     <Container>
       <ContentHeader>
@@ -30,18 +61,25 @@ const SearchPage: React.FC = () => {
         </div>
       </ContentHeader>
       {
-        sortedNotes.map((item) => (
-          <Note
-            isPinned={item.isPinned}
-            title={item.title}
-            tags={item.tags}
-            key={item.id}
-            id={item.id}
-            content={item.content}
-          />
-        ))
+                notes.map((item) => (
+                  <Note
+                    isPinned={item.isPinned}
+                    title={item.title}
+                    tags={item.tags}
+                    key={item.id}
+                    id={item.id}
+                    content={item.content}
+                  />
+                ))
             }
-      {/* {notes.length > 10 && <Paginator className="mt-5" />} */}
+      {countNotes > NOTES_PER_PAGE
+            && (
+            <Paginator
+              className="mt-5"
+              route={`${SEARCH_ROUTE}/${searchTerm}`}
+              totalPages={countNotes}
+            />
+            )}
     </Container>
   );
 };
