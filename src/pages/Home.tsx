@@ -14,7 +14,7 @@ import { setNotes, setTotalCount } from '../reducers/NoteReducer';
 import { NOTES_PER_PAGE } from '../const/numbers';
 
 interface Params {
-  page: string
+    page: string
 }
 
 const Home: React.FC = () => {
@@ -26,47 +26,46 @@ const Home: React.FC = () => {
   const countNotes = useSelector((state: RootState) => state.notes.totalCount);
 
   useEffect(() => {
-    getAllNotesInPage(page).then((response) => {
-      const foundNotes = response.data;
-      for (let i = 0; i < foundNotes.length; i++) {
-        foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
-      }
-      dispatch(setNotes(foundNotes));
-    }).catch((error) => {
-      console.log('Error in getting notes', error);
-    });
+    getAllNotesInPage(page)
+      .then((response) => {
+        const foundNotes = response.data;
+        for (let i = 0; i < foundNotes.length; i++) {
+          foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
+        }
+        dispatch(setNotes(foundNotes));
+      })
+      .catch((error) => {
+        console.log('Error in getting notes', error);
+      });
 
-    getCountNotes().then((res) => {
-      dispatch(setTotalCount(res.data));
-    }).catch((error) => {
-      console.log('Error in counting notes', error);
-    });
+    getCountNotes()
+      .then((res) => {
+        dispatch(setTotalCount(res.data));
+      })
+      .catch((error) => {
+        console.log('Error in counting notes', error);
+      });
   }, [page, dispatch]);
   return (
     <Container>
       <ContentHeader>
         <NavLink to={CREATE_ROUTE}>
-          <Icon
-            src="/icons/plus.svg"
-            width="37"
-          />
+          <Icon src="/icons/plus.svg" width="37" />
         </NavLink>
         <div className="d-flex justify-content-center flex-grow-1">
           <Search />
         </div>
       </ContentHeader>
-      {
-                notesInPage.map((item) => (
-                  <Note
-                    isPinned={item.isPinned}
-                    title={item.title}
-                    tags={item.tags}
-                    key={item.id}
-                    id={item.id}
-                    content={item.content}
-                  />
-                ))
-            }
+      {notesInPage.map((item) => (
+        <Note
+          isPinned={item.isPinned}
+          title={item.title}
+          tags={item.tags}
+          key={item.id}
+          id={item.id}
+          content={item.content}
+        />
+      ))}
       {countNotes > NOTES_PER_PAGE && (
         <Paginator
           className="mt-5"

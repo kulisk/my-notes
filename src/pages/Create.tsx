@@ -50,23 +50,27 @@ const Create: React.FC = () => {
 
     postData.append('content', content);
     postData.append('tags', JSON.stringify(tags));
-    createNote(postData).then((response) => {
-      const newNote: NoteInterface = {
-        id: response.data.id,
-        tags,
-        title,
-        content,
-      };
-      dispatch(create(newNote));
-      history.push(HOME_ROUTE);
-    }).catch((e) => {
-      console.log(e);
-    });
+    createNote(postData)
+      .then((response) => {
+        const newNote: NoteInterface = {
+          id: response.data.id,
+          tags,
+          title,
+          content,
+        };
+        dispatch(create(newNote));
+        history.push(HOME_ROUTE);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   return (
     <Container>
-      <ContentHeader style={{ justifyContent: 'center', marginBottom: '7rem' }}>
+      <ContentHeader
+        style={{ justifyContent: 'center', marginBottom: '7rem' }}
+      >
         <Heading>Creating</Heading>
       </ContentHeader>
       <RegularText color={colors.primary}>Note title</RegularText>
@@ -78,7 +82,9 @@ const Create: React.FC = () => {
 
       <RegularText color={colors.primary}>Tags</RegularText>
       <div className="tagsContainer">
-        {tags.map(((value) => <Tag key={value}>{value}</Tag>))}
+        {tags.map((value) => (
+          <Tag key={value}>{value}</Tag>
+        ))}
       </div>
       <TextInput
         type="text"
@@ -88,7 +94,9 @@ const Create: React.FC = () => {
         onChange={(event) => onChangeHandler(event, setTag)}
       />
 
-      <RegularText color={colors.primary}>Images: PNG, JPG, JPEG</RegularText>
+      <RegularText color={colors.primary}>
+        Images: PNG, JPG, JPEG
+      </RegularText>
       <FileInput
         files={files}
         onChange={(event) => setFiles(event.target.files)}
@@ -100,7 +108,10 @@ const Create: React.FC = () => {
         onChange={(event: ChangeEvent<HTMLTextAreaElement>) => onTextareaChange(event, setContent)}
       />
 
-      <div className="d-flex justify-content-end" style={{ marginBottom: '7rem' }}>
+      <div
+        className="d-flex justify-content-end"
+        style={{ marginBottom: '7rem' }}
+      >
         <Button onClick={() => onCreateClick()}>
           <Heading>Create</Heading>
         </Button>

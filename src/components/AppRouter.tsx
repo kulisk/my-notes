@@ -7,7 +7,7 @@ import { HOME_ROUTE, LOGIN_ROUTE } from '../const/routes';
 import { RootState } from '../reducers/store';
 import { loginAction } from '../reducers/UserReducer';
 
-interface JwtInterface extends JwtPayload{
+interface JwtInterface extends JwtPayload {
     login: string
 }
 
@@ -21,16 +21,18 @@ const AppRouter = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.users.isAuth);
   return (
     <Switch>
-      {isAuth && authRoutes.map(({ path, Component }) => (
-        <Route
-          key={path}
-          path={path}
-          component={Component}
-          exact
-        />
+      {isAuth
+                && authRoutes.map(({ path, Component }) => (
+                  <Route key={path} path={path} component={Component} exact />
+                ))}
+      {publicRoutes.map(({ path, Component }) => (
+        <Route key={path} path={path} component={Component} exact />
       ))}
-      {publicRoutes.map(({ path, Component }) => <Route key={path} path={path} component={Component} exact />)}
-      {isAuth ? <Redirect to={HOME_ROUTE} /> : <Redirect to={LOGIN_ROUTE} />}
+      {isAuth ? (
+        <Redirect to={HOME_ROUTE} />
+      ) : (
+        <Redirect to={LOGIN_ROUTE} />
+      )}
     </Switch>
   );
 };

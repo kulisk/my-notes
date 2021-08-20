@@ -14,8 +14,8 @@ import { getCountSearchNotes, searchNotes } from '../http';
 import { setCount, setNotes } from '../reducers/SearchReducer';
 
 interface Params {
-  term: string
-  page: string
+    term: string
+    page: string
 }
 
 const SearchPage: React.FC = () => {
@@ -25,61 +25,61 @@ const SearchPage: React.FC = () => {
   const page = +params.page;
 
   const notes = useSelector((state: RootState) => state.search.notes);
-  const countNotes = useSelector((state: RootState) => state.search.foundCount);
+  const countNotes = useSelector(
+    (state: RootState) => state.search.foundCount,
+  );
 
   useEffect(() => {
     if (searchTerm === '') {
       return;
     }
-    searchNotes(searchTerm, page).then((response) => {
-      const foundNotes = response.data;
-      for (let i = 0; i < foundNotes.length; i++) {
-        foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
-      }
-      dispatch(setNotes(foundNotes));
-    }).catch((error) => {
-      console.log('Search notes error', error);
-    });
+    searchNotes(searchTerm, page)
+      .then((response) => {
+        const foundNotes = response.data;
+        for (let i = 0; i < foundNotes.length; i++) {
+          foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
+        }
+        dispatch(setNotes(foundNotes));
+      })
+      .catch((error) => {
+        console.log('Search notes error', error);
+      });
 
-    getCountSearchNotes(searchTerm).then((response) => {
-      dispatch(setCount(response.data));
-    }).catch((error) => {
-      console.log('Count search notes error', error);
-    });
+    getCountSearchNotes(searchTerm)
+      .then((response) => {
+        dispatch(setCount(response.data));
+      })
+      .catch((error) => {
+        console.log('Count search notes error', error);
+      });
   }, [searchTerm, page, dispatch]);
   return (
     <Container>
       <ContentHeader>
         <NavLink to={CREATE_ROUTE}>
-          <Icon
-            src="./icons/plus.svg"
-            width="37"
-          />
+          <Icon src="./icons/plus.svg" width="37" />
         </NavLink>
         <div className="d-flex justify-content-center flex-grow-1">
           <Search />
         </div>
       </ContentHeader>
-      {
-                notes.map((item) => (
-                  <Note
-                    isPinned={item.isPinned}
-                    title={item.title}
-                    tags={item.tags}
-                    key={item.id}
-                    id={item.id}
-                    content={item.content}
-                  />
-                ))
-            }
-      {countNotes > NOTES_PER_PAGE
-            && (
-            <Paginator
-              className="mt-5"
-              route={`${SEARCH_ROUTE}/${searchTerm}`}
-              totalPages={countNotes}
-            />
-            )}
+      {notes.map((item) => (
+        <Note
+          isPinned={item.isPinned}
+          title={item.title}
+          tags={item.tags}
+          key={item.id}
+          id={item.id}
+          content={item.content}
+        />
+      ))}
+      {countNotes > NOTES_PER_PAGE && (
+        <Paginator
+          className="mt-5"
+          route={`${SEARCH_ROUTE}/${searchTerm}`}
+          totalPages={countNotes}
+        />
+      )}
     </Container>
   );
 };

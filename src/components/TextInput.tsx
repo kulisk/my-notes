@@ -9,22 +9,21 @@ interface TextInputInterface {
     value?: string
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
     onKeyUp?: (event: React.KeyboardEvent<HTMLInputElement>) => void
-
 }
 
 const StyledTextInput = styled.input<TextInputInterface>`
-  border: 0.1rem solid ${colors.primaryLight};
-  border-radius: 0.3rem;
-  width: 100%;
-  height: 40px;
-  font-size: 2.4rem;
-  font-weight: 500;
-  color: #000;
-  transition: 0.2s linear all;
+    border: 0.1rem solid ${colors.primaryLight};
+    border-radius: 0.3rem;
+    width: 100%;
+    height: 40px;
+    font-size: 2.4rem;
+    font-weight: 500;
+    color: #000;
+    transition: 0.2s linear all;
 
-  &:focus {
-    border: 0.1rem solid ${colors.primary}
-  }
+    &:focus {
+        border: 0.1rem solid ${colors.primary};
+    }
 `;
 
 const TextInput: React.FC<TextInputInterface> = ({

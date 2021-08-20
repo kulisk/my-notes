@@ -4,8 +4,8 @@ interface actionInterface {
 }
 
 interface authInterface {
-    login?: string,
-    isAuth?: boolean,
+    login?: string
+    isAuth?: boolean
 }
 
 const loginType = 'login';
@@ -16,7 +16,10 @@ const defaultState: authInterface = {
   isAuth: false,
 };
 
-export function userReducer(state: authInterface = defaultState, action: actionInterface): authInterface {
+export function userReducer(
+  state: authInterface = defaultState,
+  action: actionInterface,
+): authInterface {
   switch (action.type) {
     case loginType:
       return {

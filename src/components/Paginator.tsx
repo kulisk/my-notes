@@ -20,15 +20,15 @@ interface Params {
 }
 
 const StyledPaginator = styled.div<StyledPaginatorInterface>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  .flexEndWrapper {
     display: flex;
-    flex-grow: 1;
-    justify-content: flex-end;
-  }
+    align-items: center;
+    justify-content: space-between;
+
+    .flexEndWrapper {
+        display: flex;
+        flex-grow: 1;
+        justify-content: flex-end;
+    }
 `;
 
 const Paginator: React.FC<PaginatorInterface> = ({
@@ -41,16 +41,13 @@ const Paginator: React.FC<PaginatorInterface> = ({
   const routeService = () => (route === HOME_ROUTE ? route : `${route}/`);
   return (
     <StyledPaginator className={className}>
-
-      {
-                (page > 1 && (
-                <NavLink to={`${routeService()}${page - 1}`}>
-                  <PaginatorButton>
-                    <Icon src="/icons/back.svg" notHover />
-                  </PaginatorButton>
-                </NavLink>
-                ))
-            }
+      {page > 1 && (
+        <NavLink to={`${routeService()}${page - 1}`}>
+          <PaginatorButton>
+            <Icon src="/icons/back.svg" notHover />
+          </PaginatorButton>
+        </NavLink>
+      )}
 
       {page < totalPages && (
         <div className="flexEndWrapper">
@@ -61,7 +58,6 @@ const Paginator: React.FC<PaginatorInterface> = ({
           </NavLink>
         </div>
       )}
-
     </StyledPaginator>
   );
 };

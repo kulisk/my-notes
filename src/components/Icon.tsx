@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface IconInterface {
-    src: string,
+    src: string
     width?: string
     height?: string
     isTurned?: boolean
@@ -12,18 +12,17 @@ interface IconInterface {
 }
 
 const StyledIcon = styled.div<IconInterface>`
-  background: url("${(props) => props.src}");
-  width: ${(props) => (props.width ? `${props.width}px` : '30px')};
-  height: ${(props) => (props.height ? `${props.height}px` : '30px')};
-  transition: 0.2s linear all;
-  transform: ${(props) => (props.isTurned ? 'rotate(45deg)' : 'none')};
+    background: url('${(props) => props.src}');
+    width: ${(props) => (props.width ? `${props.width}px` : '30px')};
+    height: ${(props) => (props.height ? `${props.height}px` : '30px')};
+    transition: 0.2s linear all;
+    transform: ${(props) => (props.isTurned ? 'rotate(45deg)' : 'none')};
 
-
-  &:hover {
-    background: url("${(props) => (!props.notHover
+    &:hover {
+        background: url('${(props) => (!props.notHover
     ? `${props.src.slice(0, props.src.length - 4)}-hover.svg`
-    : props.src)}");
-  }
+    : props.src)}');
+    }
 `;
 
 const Icon: React.FC<IconInterface> = ({

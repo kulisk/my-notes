@@ -28,18 +28,28 @@ const Register: React.FC = () => {
       console.log('Password mismatch');
     }
 
-    signUp(postData).then(() => {
-      history.push(LOGIN_ROUTE);
-    }).catch((error) => {
-      console.log(error);
-    });
+    signUp(postData)
+      .then(() => {
+        history.push(LOGIN_ROUTE);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
     <AuthForm title="Registration">
       <form action="#">
-        <TextInputItem title="username" type="text" onChange={(event) => onChangeHandler(event, setLogin)} />
-        <TextInputItem title="e-mail" type="text" onChange={(event) => onChangeHandler(event, setEmail)} />
+        <TextInputItem
+          title="username"
+          type="text"
+          onChange={(event) => onChangeHandler(event, setLogin)}
+        />
+        <TextInputItem
+          title="e-mail"
+          type="text"
+          onChange={(event) => onChangeHandler(event, setEmail)}
+        />
         <TextInputItem
           title="password"
           type="password"

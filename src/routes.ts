@@ -1,5 +1,10 @@
 import {
-  CREATE_ROUTE, EDIT_ROUTE, HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SEARCH_ROUTE,
+  CREATE_ROUTE,
+  EDIT_ROUTE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  REGISTRATION_ROUTE,
+  SEARCH_ROUTE,
 } from './const/routes';
 import Login from './pages/Login';
 import Register from './pages/Register';

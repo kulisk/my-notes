@@ -51,14 +51,16 @@ const NotePage: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    getOneNote(+id).then((response) => {
-      setTitle(response.data.title);
-      setTags(JSON.parse(response.data.tags));
-      setContent(response.data.content);
-      setImages(response.data.images);
-    }).catch((error) => {
-      console.log('Get images error', error);
-    });
+    getOneNote(+id)
+      .then((response) => {
+        setTitle(response.data.title);
+        setTags(JSON.parse(response.data.tags));
+        setContent(response.data.content);
+        setImages(response.data.images);
+      })
+      .catch((error) => {
+        console.log('Get images error', error);
+      });
   }, [id]);
 
   function addTag(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -75,9 +77,15 @@ const NotePage: React.FC = () => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
-  const removeImage = (event: React.MouseEvent<Element, MouseEvent>, photos: PhotoInterface) => {
+  const removeImage = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    photos: PhotoInterface,
+  ) => {
     setImages(images.filter((image, index) => index !== photos.index));
-    setImagesToDelete((oldImagesToDelete) => [...oldImagesToDelete, images[photos.index]]);
+    setImagesToDelete((oldImagesToDelete) => [
+      ...oldImagesToDelete,
+      images[photos.index],
+    ]);
   };
 
   const imagesSet: ImageSetInterface[] = images.map((value) => ({
@@ -98,22 +106,26 @@ const NotePage: React.FC = () => {
     updateData.append('content', content);
     updateData.append('tags', JSON.stringify(tags));
     updateData.append('imagesToDelete', JSON.stringify(imagesToDelete));
-    updateNote(id, updateData).then(() => {
-      const updatedNote: NoteInterface = {
-        id: +id,
-        tags,
-        title,
-        content,
-      };
-      dispatch(update(+id, updatedNote));
-      history.push(HOME_ROUTE);
-    }).catch((error) => {
-      console.log('Update note error', error);
-    });
+    updateNote(id, updateData)
+      .then(() => {
+        const updatedNote: NoteInterface = {
+          id: +id,
+          tags,
+          title,
+          content,
+        };
+        dispatch(update(+id, updatedNote));
+        history.push(HOME_ROUTE);
+      })
+      .catch((error) => {
+        console.log('Update note error', error);
+      });
   };
   return (
     <Container>
-      <ContentHeader style={{ justifyContent: 'center', marginBottom: '7rem' }}>
+      <ContentHeader
+        style={{ justifyContent: 'center', marginBottom: '7rem' }}
+      >
         <Heading>Editing</Heading>
       </ContentHeader>
       <RegularText color={colors.primary}>Note title</RegularText>
@@ -126,12 +138,18 @@ const NotePage: React.FC = () => {
 
       <RegularText color={colors.primary}>Tags</RegularText>
       <div className="tagsContainer">
-        {tags.map(((value) => (
+        {tags.map((value) => (
           <div key={value} className="d-flex">
             <Tag>{value}</Tag>
-            <button type="button" className="removeButton" onClick={() => removeTag(value)}>&times;</button>
+            <button
+              type="button"
+              className="removeButton"
+              onClick={() => removeTag(value)}
+            >
+              &times;
+            </button>
           </div>
-        )))}
+        ))}
       </div>
       <TextInput
         type="text"
@@ -141,7 +159,9 @@ const NotePage: React.FC = () => {
         onChange={(event) => onChangeHandler(event, setTag)}
       />
 
-      <RegularText color={colors.primary}>Images: PNG, JPG, JPEG</RegularText>
+      <RegularText color={colors.primary}>
+        Images: PNG, JPG, JPEG
+      </RegularText>
       <Gallery
         photos={imagesSet}
         onClick={(event, photos) => removeImage(event, photos)}
@@ -158,7 +178,10 @@ const NotePage: React.FC = () => {
         onChange={(event: ChangeEvent<HTMLTextAreaElement>) => onTextareaChange(event, setContent)}
       />
 
-      <div className="d-flex justify-content-end" style={{ marginBottom: '7rem' }}>
+      <div
+        className="d-flex justify-content-end"
+        style={{ marginBottom: '7rem' }}
+      >
         <Button onClick={() => onSaveClick()}>
           <Heading>Save</Heading>
         </Button>

@@ -32,28 +32,39 @@ const Login = (): JSX.Element => {
   };
 
   function onLoginClick() {
-    signIn(postData).then((response) => {
-      localStorage.setItem('accessToken', response.data.accessToken);
-      dispatch(loginAction(response.data.login));
-      history.push(HOME_ROUTE);
-    }).catch((e) => {
-      console.log(e);
-    });
+    signIn(postData)
+      .then((response) => {
+        localStorage.setItem('accessToken', response.data.accessToken);
+        dispatch(loginAction(response.data.login));
+        history.push(HOME_ROUTE);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   return (
     <AuthForm title="Log in">
       <form action="#">
-        <TextInputItem title="login" type="text" onChange={(event) => onLoginChange(event)} />
-        <TextInputItem title="password" type="password" onChange={(event) => onPasswordChange(event)} />
+        <TextInputItem
+          title="login"
+          type="text"
+          onChange={(event) => onLoginChange(event)}
+        />
+        <TextInputItem
+          title="password"
+          type="password"
+          onChange={(event) => onPasswordChange(event)}
+        />
       </form>
       <AuthButton onClick={() => onLoginClick()}>
         <RegularText color={colors.white}>Log in</RegularText>
       </AuthButton>
-      <div style={{
-        marginTop: '30px',
-        textAlign: 'center',
-      }}
+      <div
+        style={{
+          marginTop: '30px',
+          textAlign: 'center',
+        }}
       >
         <NavLink to={REGISTRATION_ROUTE}>
           <SmallText color="#000">

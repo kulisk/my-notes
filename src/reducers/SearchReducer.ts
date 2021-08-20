@@ -8,9 +8,9 @@ interface Action {
 }
 
 interface State {
-    notes: NoteInterface[],
-    searchTerm: string,
-    page: number,
+    notes: NoteInterface[]
+    searchTerm: string
+    page: number
     foundCount: number
 }
 
@@ -47,6 +47,9 @@ export function searchReducer(state = defaultState, action: Action): State {
   }
 }
 
-export const setSearchTerm = (value: string) => ({ type: SET_SEARCH_TERM, value });
+export const setSearchTerm = (value: string) => ({
+  type: SET_SEARCH_TERM,
+  value,
+});
 export const setNotes = (notes: NoteInterface[]) => ({ type: SET_NOTES, notes });
 export const setCount = (count: number) => ({ type: SET_COUNT, count });

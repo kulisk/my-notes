@@ -10,9 +10,9 @@ interface Action {
 }
 
 interface State {
-    notes: NoteInterface[],
-    totalCount: number,
-    page: number,
+    notes: NoteInterface[]
+    totalCount: number
+    page: number
 }
 
 const PIN = 'pin';
@@ -64,7 +64,9 @@ export function noteReducer(state = defaultState, action: Action): State {
       return {
         ...state,
         totalCount: state.totalCount - 1,
-        notes: state.notes.filter((element) => element.id !== action.id),
+        notes: state.notes.filter(
+          (element) => element.id !== action.id,
+        ),
       };
     case COPY: {
       const noteToCopy = action.note;
@@ -106,9 +108,20 @@ export function noteReducer(state = defaultState, action: Action): State {
 
 export const pin = (id: number) => ({ type: PIN, id });
 export const remove = (id: number) => ({ type: REMOVE, id });
-export const copy = (id: number, note: NoteInterface) => ({ type: COPY, id, note });
+export const copy = (id: number, note: NoteInterface) => ({
+  type: COPY,
+  id,
+  note,
+});
 export const create = (note: NoteInterface) => ({ type: CREATE, note });
-export const update = (id: number, note: NoteInterface) => ({ type: updateAction, id, note });
-export const setTotalCount = (totalCount: number) => ({ type: SET_TOTAL_COUNT, totalCount });
+export const update = (id: number, note: NoteInterface) => ({
+  type: updateAction,
+  id,
+  note,
+});
+export const setTotalCount = (totalCount: number) => ({
+  type: SET_TOTAL_COUNT,
+  totalCount,
+});
 export const goToPage = (page: number) => ({ type: GO_TO_PAGE, page });
 export const setNotes = (notes: NoteInterface[]) => ({ type: SET_NOTES, notes });

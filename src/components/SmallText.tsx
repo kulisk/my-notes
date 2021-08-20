@@ -6,18 +6,13 @@ interface SmallTextInterface {
 }
 
 const StyledSmallText = styled.span<SmallTextInterface>`
-  color: ${(props) => props.color};
-  font-size: 1.8rem;
-  font-weight: 400;
+    color: ${(props) => props.color};
+    font-size: 1.8rem;
+    font-weight: 400;
 `;
 
-const SmallText: React.FC<SmallTextInterface> = ({
-  children,
-  color,
-}) => (
-  <StyledSmallText color={color}>
-    {children}
-  </StyledSmallText>
+const SmallText: React.FC<SmallTextInterface> = ({ children, color }) => (
+  <StyledSmallText color={color}>{children}</StyledSmallText>
 );
 
 export default SmallText;
