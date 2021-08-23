@@ -6,13 +6,12 @@ import { RootState } from '../reducers/store';
 import Note from '../components/Note';
 import ContentHeader from '../components/ContentHeader';
 import Icon from '../components/Icon';
-import { CREATE_ROUTE, HOME_ROUTE, LOGIN_ROUTE } from '../const/routes';
+import { CREATE_ROUTE, HOME_ROUTE } from '../const/routes';
 import Search from '../components/Search';
 import Paginator from '../components/Paginator';
 import { getAllNotesInPage, getCountNotes } from '../http';
 import { setNotes, setTotalCount } from '../reducers/NoteReducer';
-import { JSON_ERROR_SKIP, NOTES_PER_PAGE } from '../const/numbers';
-import { logoutAction } from '../reducers/UserReducer';
+import { NOTES_PER_PAGE } from '../const/numbers';
 
 interface Params {
     page: string
@@ -39,12 +38,6 @@ const Home: React.FC = () => {
       })
       .catch((error) => {
         console.log('error in getting notes', error);
-        console.log(error.error);
-        if (error === 401) {
-          dispatch(logoutAction());
-          console.log('historu push');
-          history.push(LOGIN_ROUTE);
-        }
       });
 
     getCountNotes()

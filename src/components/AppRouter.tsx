@@ -14,23 +14,19 @@ interface JwtInterface extends JwtPayload {
 }
 
 const AppRouter: React.FC = () => {
-  console.log('render');
   const location = useLocation();
   const dispatch = useDispatch();
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token) {
-      console.log('token here!');
       const decoded = jwtDecode<JwtInterface>(token);
       dispatch(loginAction(decoded.login));
     } else {
-      console.log('token not here');
       dispatch(logoutAction());
     }
   }, [location, dispatch]);
 
   const isAuth = useSelector((state: RootState) => state.users.isAuth);
-  console.log(isAuth);
   return (
     <Switch>
       {isAuth

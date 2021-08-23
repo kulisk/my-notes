@@ -26,8 +26,9 @@ notesHttp.interceptors.request.use(authInterceptor, async (error) => {
 notesHttp.interceptors.response.use((res) => res, (error) => {
   if (error.response.data.statusCode === 401) {
     localStorage.removeItem('accessToken');
+    window.location.href = '/login';
   }
-  throw new Error(error.response.data.statusCode);
+  throw new Error(error.response.data);
 });
 
 export const getAllNotesInPage = (page: number): Promise<AxiosResponse> => notesHttp.get(`notes/pages/${page}`);
