@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import App from './App';
 import GlobalStyle from './styles/global';
 import { store } from './reducers/store';
+import './index.css';
 
 dotenv.config({ path: `${__dirname}.env` });
 
