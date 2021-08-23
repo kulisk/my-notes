@@ -47,7 +47,7 @@ const Home: React.FC = () => {
       .catch((error) => {
         console.log('Error in counting notes', error);
       });
-  }, [page, dispatch, history]);
+  }, [countNotes, page, dispatch, history]);
   return (
     <Container>
       <ContentHeader>

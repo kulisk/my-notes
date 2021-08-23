@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
-  Switch, Route, Redirect, useLocation,
+  Switch, Route, Redirect,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
@@ -14,17 +14,14 @@ interface JwtInterface extends JwtPayload {
 }
 
 const AppRouter: React.FC = () => {
-  const location = useLocation();
   const dispatch = useDispatch();
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      const decoded = jwtDecode<JwtInterface>(token);
-      dispatch(loginAction(decoded.login));
-    } else {
-      dispatch(logoutAction());
-    }
-  }, [location, dispatch]);
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    const decoded = jwtDecode<JwtInterface>(token);
+    dispatch(loginAction(decoded.login));
+  } else {
+    dispatch(logoutAction());
+  }
 
   const isAuth = useSelector((state: RootState) => state.users.isAuth);
   return (
