@@ -2,7 +2,7 @@ import { NoteInterface } from '../components/Note';
 
 interface Action {
     type: string
-    id?: number
+    id: number
     note: NoteInterface
     notes: NoteInterface[]
     totalCount: number
@@ -28,6 +28,22 @@ const defaultState: State = {
   notes: [],
   totalCount: 0,
   page: 1,
+};
+
+const defaultNote: NoteInterface = {
+  id: 0,
+  title: '',
+  tags: [],
+  content: '',
+};
+
+const defaultAction: Action = {
+  type: '',
+  id: 0,
+  note: defaultNote,
+  notes: [],
+  totalCount: 0,
+  page: 0,
 };
 
 export function noteReducer(state = defaultState, action: Action): State {
@@ -106,22 +122,25 @@ export function noteReducer(state = defaultState, action: Action): State {
   }
 }
 
-export const pin = (id: number) => ({ type: PIN, id });
-export const remove = (id: number) => ({ type: REMOVE, id });
-export const copy = (id: number, note: NoteInterface) => ({
+export const pin = (id: number): Action => ({ ...defaultAction, type: PIN, id });
+export const remove = (id: number): Action => ({ ...defaultAction, type: REMOVE, id });
+export const copy = (id: number, note: NoteInterface): Action => ({
+  ...defaultAction,
   type: COPY,
   id,
   note,
 });
-export const create = (note: NoteInterface) => ({ type: CREATE, note });
-export const update = (id: number, note: NoteInterface) => ({
+export const create = (note: NoteInterface): Action => ({ ...defaultAction, type: CREATE, note });
+export const update = (id: number, note: NoteInterface): Action => ({
+  ...defaultAction,
   type: updateAction,
   id,
   note,
 });
-export const setTotalCount = (totalCount: number) => ({
+export const setTotalCount = (totalCount: number): Action => ({
+  ...defaultAction,
   type: SET_TOTAL_COUNT,
   totalCount,
 });
-export const goToPage = (page: number) => ({ type: GO_TO_PAGE, page });
-export const setNotes = (notes: NoteInterface[]) => ({ type: SET_NOTES, notes });
+export const goToPage = (page: number): Action => ({ ...defaultAction, type: GO_TO_PAGE, page });
+export const setNotes = (notes: NoteInterface[]): Action => ({ ...defaultAction, type: SET_NOTES, notes });

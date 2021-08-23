@@ -23,6 +23,13 @@ const defaultState: State = {
   foundCount: 0,
 };
 
+const defaultAction: Action = {
+  type: '',
+  value: '',
+  notes: [],
+  count: 0,
+};
+
 export function searchReducer(state = defaultState, action: Action): State {
   switch (action.type) {
     case SET_COUNT:
@@ -45,9 +52,10 @@ export function searchReducer(state = defaultState, action: Action): State {
   }
 }
 
-export const setSearchTerm = (value: string) => ({
+export const setSearchTerm = (value: string): Action => ({
+  ...defaultAction,
   type: SET_SEARCH_TERM,
   value,
 });
-export const setNotes = (notes: NoteInterface[]) => ({ type: SET_NOTES, notes });
-export const setCount = (count: number) => ({ type: SET_COUNT, count });
+export const setNotes = (notes: NoteInterface[]): Action => ({ ...defaultAction, type: SET_NOTES, notes });
+export const setCount = (count: number): Action => ({ ...defaultAction, type: SET_COUNT, count });
