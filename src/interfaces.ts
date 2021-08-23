@@ -8,10 +8,3 @@ export interface SignUpDataInterface {
     email: string
     password: string
 }
-
-export interface CreateDataInterface {
-    title: string
-    tags?: string[]
-    files?: FileList | null
-    content: string
-}

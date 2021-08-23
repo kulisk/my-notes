@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { RootState } from '../reducers/store';
 import Note from '../components/Note';
 import ContentHeader from '../components/ContentHeader';
 import Icon from '../components/Icon';
-import { CREATE_ROUTE, HOME_ROUTE } from '../const/routes';
+import { CREATE_ROUTE, HOME_ROUTE, LOGIN_ROUTE } from '../const/routes';
 import Search from '../components/Search';
 import Paginator from '../components/Paginator';
 import { getAllNotesInPage, getCountNotes } from '../http';
 import { setNotes, setTotalCount } from '../reducers/NoteReducer';
-import { NOTES_PER_PAGE } from '../const/numbers';
+import { JSON_ERROR_SKIP, NOTES_PER_PAGE } from '../const/numbers';
+import { logoutAction } from '../reducers/UserReducer';
 
 interface Params {
     page: string
@@ -19,9 +20,11 @@ interface Params {
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const params: Params = useParams();
-  const page = params.page ? +params.page : 1;
+  const pageNumber = params.page ? +params.page : 1;
+  const page = Number.isNaN(pageNumber) ? 1 : pageNumber;
   const notesInPage = useSelector((state: RootState) => state.notes.notes);
   const countNotes = useSelector((state: RootState) => state.notes.totalCount);
 
@@ -35,7 +38,13 @@ const Home: React.FC = () => {
         dispatch(setNotes(foundNotes));
       })
       .catch((error) => {
-        console.log('Error in getting notes', error);
+        console.log('error in getting notes', error);
+        console.log(error.error);
+        if (error === 401) {
+          dispatch(logoutAction());
+          console.log('historu push');
+          history.push(LOGIN_ROUTE);
+        }
       });
 
     getCountNotes()
@@ -45,7 +54,7 @@ const Home: React.FC = () => {
       .catch((error) => {
         console.log('Error in counting notes', error);
       });
-  }, [page, dispatch]);
+  }, [page, dispatch, history]);
   return (
     <Container>
       <ContentHeader>

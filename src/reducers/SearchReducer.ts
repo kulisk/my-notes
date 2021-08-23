@@ -10,7 +10,6 @@ interface Action {
 interface State {
     notes: NoteInterface[]
     searchTerm: string
-    page: number
     foundCount: number
 }
 
@@ -21,7 +20,6 @@ const SET_COUNT = 'setCount';
 const defaultState: State = {
   notes: [],
   searchTerm: '',
-  page: 1,
   foundCount: 0,
 };
 

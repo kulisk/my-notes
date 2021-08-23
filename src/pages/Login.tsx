@@ -11,7 +11,7 @@ import SmallText from '../components/SmallText';
 import TextInputItem from '../components/TextInputItem';
 import { signIn } from '../http';
 
-const Login = (): JSX.Element => {
+const Login: React.FC = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 

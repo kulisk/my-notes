@@ -1,20 +1,14 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { LoginDataInterface, SignUpDataInterface } from '../interfaces';
-
-const authInterceptor = (config: AxiosRequestConfig): AxiosRequestConfig => {
-  const token = localStorage.getItem('accessToken');
-  const resultConfig = config;
-  if (token) resultConfig.headers.Authorization = `Bearer ${token}`;
-  return resultConfig;
-};
+import { authInterceptor } from './interceptors';
 
 export const authHttp = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
-authHttp.interceptors.request.use(authInterceptor, (error) => {
-  Promise.reject(error).then();
+authHttp.interceptors.request.use(authInterceptor, async (error) => {
+  await Promise.reject(error);
 });
 
 export const signIn = (data: LoginDataInterface): Promise<AxiosResponse> => authHttp.post('auth/login', data);
@@ -25,8 +19,15 @@ export const notesHttp = axios.create({
   headers: { 'Content-Type': 'multipart/form-data' },
 });
 
-notesHttp.interceptors.request.use(authInterceptor, (error) => {
-  Promise.reject(error).then();
+notesHttp.interceptors.request.use(authInterceptor, async (error) => {
+  await Promise.reject(error);
+});
+
+notesHttp.interceptors.response.use((res) => res, (error) => {
+  if (error.response.data.statusCode === 401) {
+    localStorage.removeItem('accessToken');
+  }
+  throw new Error(error.response.data.statusCode);
 });
 
 export const getAllNotesInPage = (page: number): Promise<AxiosResponse> => notesHttp.get(`notes/pages/${page}`);
