@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Icon from './Icon';
-import { colors } from '../styles/variables';
+import { breakpoints, colors } from '../styles/variables';
 import Heading from './Heading';
 import Tag from './Tag';
 import { EDIT_ROUTE } from '../const/routes';
@@ -19,7 +19,7 @@ export interface NoteInterface {
     id: number
     isPinned?: boolean
     title: string
-    tags: Array<string>
+    tags: string[]
     content: string
 }
 
@@ -38,16 +38,28 @@ const StyledNote = styled.div<NoteStyle>`
   border-right: 1px solid ${colors.primary};
   border-bottom: 1px solid ${colors.primary};
   transition: 0.2s linear all;
+  
+  @media (max-width: ${breakpoints.s}) {
+    padding: 0 2rem;
+  }
 
   &:hover {
     box-shadow: 0 0 0.5rem 0.2rem ${colors.primary};
     position: relative;
   }
 
+  .notePreview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
   .tagsWrapper {
     display: flex;
-    justify-content: flex-end;
-    flex-grow: 1;
+    @media (max-width: ${breakpoints.s}) {
+      display: none;
+    }
   }
 `;
 
@@ -135,12 +147,14 @@ const Note: React.FC<NoteInterface> = ({
           width: '100%',
         }}
       >
-        <Heading color={colors.primary} className="ms-5">
-          {title}
-        </Heading>
-        <div className="tagsWrapper">
-          {tags.length !== 0
-                    && tags.map((item) => <Tag key={item}>{item}</Tag>)}
+        <div className="notePreview">
+          <Heading color={colors.primary} className="ms-5">
+            {title}
+          </Heading>
+          <div className="tagsWrapper">
+            {tags.length !== 0
+                        && tags.map((item) => <Tag key={item}>{item}</Tag>)}
+          </div>
         </div>
       </NavLink>
       <div className="d-flex justify-content-end flex-grow-1">

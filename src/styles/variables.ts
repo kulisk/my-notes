@@ -7,3 +7,11 @@ export const colors = {
   grey: 'rgba(0, 0, 0, 0.65)',
   lightGrey: '#C8C3C3',
 };
+
+export const breakpoints = {
+  xxs: '375px',
+  xs: '425px',
+  s: '768px',
+  m: '1150px',
+  l: '1440px',
+};

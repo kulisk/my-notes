@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { colors } from '../styles/variables';
+import { breakpoints, colors } from '../styles/variables';
 import { SEARCH_ROUTE } from '../const/routes';
 import Icon from './Icon';
 import { setSearchTerm } from '../reducers/SearchReducer';
@@ -10,7 +10,7 @@ import { setSearchTerm } from '../reducers/SearchReducer';
 const StyledSearch = styled.div`
   display: flex;
   align-items: center;
-  width: 486px;
+  max-width: 486px;
   height: 44px;
   border-radius: 2.2rem;
   background-color: ${colors.primaryDark};
@@ -26,6 +26,14 @@ const StyledSearch = styled.div`
     color: ${colors.white};
     background-color: inherit;
     border: none;
+  }
+
+  @media (max-width: ${breakpoints.xs}) {
+    padding: 0;
+    border-radius: 0;
+    input {
+      max-width: 200px;
+    }
   }
 `;
 

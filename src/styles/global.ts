@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { breakpoints } from './variables';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -31,6 +32,35 @@ const GlobalStyle = createGlobalStyle`
 
   .color-primary {
     background-color: #530086;
+  }
+  
+  .customContainer {
+    margin: 0 auto;
+    padding: 0 0.5rem;
+    max-width: 1320px;
+    
+    @media (max-width: ${breakpoints.l}) {
+      max-width: 1000px;
+    }
+
+    @media (max-width: ${breakpoints.m}) {
+      max-width: 768px;
+    }
+    
+    @media (max-width: ${breakpoints.s}) {
+      padding: 0;
+      margin: 0;
+    }
+  }
+  
+  .searchContainer {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    
+    @media (max-width: ${breakpoints.s}) {
+      margin-left: 1rem;
+    }
   }
 
   .tagsContainer {

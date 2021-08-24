@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors } from '../styles/variables';
+import { breakpoints, colors } from '../styles/variables';
 
 interface ContentHeaderInterface {
     style?: React.CSSProperties
@@ -15,6 +15,11 @@ const StyledContentHeader = styled.div<ContentHeaderInterface>`
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     padding: 0 4rem;
+  
+  @media (max-width: ${breakpoints.s}) {
+    padding: 0 2rem;
+    border-radius: 0;
+  }
 `;
 
 const ContentHeader: React.FC<ContentHeaderInterface> = ({
