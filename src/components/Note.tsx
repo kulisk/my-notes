@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import Icon from './Icon';
 import { colors } from '../styles/variables';
 import Heading from './Heading';
@@ -10,6 +12,8 @@ import { EDIT_ROUTE } from '../const/routes';
 import { copy, pin, remove } from '../reducers/NoteReducer';
 import { copyNote, deleteNote, updateNote } from '../http';
 import { RootState } from '../reducers/store';
+import RegularText from './RegularText';
+import { StyledConfirmAlert } from '../styles/ConfitmAlertStyle';
 
 export interface NoteInterface {
     id: number
@@ -24,27 +28,27 @@ interface NoteStyle {
 }
 
 const StyledNote = styled.div<NoteStyle>`
-    height: 80px;
-    width: 100%;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 4rem;
+  background-color: ${(props) => (props.isPinned === true ? colors.secondary : colors.white)};
+  border-left: 1px solid ${colors.primary};
+  border-right: 1px solid ${colors.primary};
+  border-bottom: 1px solid ${colors.primary};
+  transition: 0.2s linear all;
+
+  &:hover {
+    box-shadow: 0 0 0.5rem 0.2rem ${colors.primary};
+    position: relative;
+  }
+
+  .tagsWrapper {
     display: flex;
-    align-items: center;
-    padding: 0 4rem;
-    background-color: ${(props) => (props.isPinned === true ? colors.secondary : colors.white)};
-    border-left: 1px solid ${colors.primary};
-    border-right: 1px solid ${colors.primary};
-    border-bottom: 1px solid ${colors.primary};
-    transition: 0.2s linear all;
-
-    &:hover {
-        box-shadow: 0 0 0.5rem 0.2rem ${colors.primary};
-        position: relative;
-    }
-
-    .tagsWrapper {
-        display: flex;
-        justify-content: flex-end;
-        flex-grow: 1;
-    }
+    justify-content: flex-end;
+    flex-grow: 1;
+  }
 `;
 
 const Note: React.FC<NoteInterface> = ({
@@ -64,6 +68,31 @@ const Note: React.FC<NoteInterface> = ({
         console.log(error);
       });
   }
+
+  const removeAlert = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => (
+        <StyledConfirmAlert>
+          <div className="titleContainer">
+            <RegularText color="#fff">Delete note?</RegularText>
+          </div>
+          <div className="buttonsContainer">
+            <button
+              onClick={() => {
+                onDeleteClick();
+                onClose();
+              }}
+              type="button"
+            >
+              Yes
+            </button>
+            <button onClick={onClose} type="button">No</button>
+          </div>
+
+        </StyledConfirmAlert>
+      ),
+    });
+  };
 
   function onPinClick() {
     const updateData = new FormData();
@@ -111,14 +140,14 @@ const Note: React.FC<NoteInterface> = ({
         </Heading>
         <div className="tagsWrapper">
           {tags.length !== 0
-                        && tags.map((item) => <Tag key={item}>{item}</Tag>)}
+                    && tags.map((item) => <Tag key={item}>{item}</Tag>)}
         </div>
       </NavLink>
       <div className="d-flex justify-content-end flex-grow-1">
         <Icon
           src="/icons/rubbish.svg"
           className="ms-3"
-          onClick={() => onDeleteClick()}
+          onClick={() => removeAlert()}
         />
         <Icon
           src="/icons/copy.svg"
