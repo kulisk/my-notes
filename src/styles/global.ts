@@ -30,15 +30,11 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
   }
 
-  .color-primary {
-    background-color: #530086;
-  }
-  
   .customContainer {
     margin: 0 auto;
     padding: 0 0.5rem;
     max-width: 1320px;
-    
+
     @media (max-width: ${breakpoints.l}) {
       max-width: 1000px;
     }
@@ -46,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
     @media (max-width: ${breakpoints.m}) {
       max-width: 768px;
     }
-    
+
     @media (max-width: ${breakpoints.s}) {
       padding: 0;
       margin: 0;
@@ -57,16 +53,23 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     justify-content: center;
     flex-grow: 1;
-    
+
     @media (max-width: ${breakpoints.s}) {
       margin-left: 1rem;
+    }
+  }
+  
+  .notesFormContainer {
+    @media (max-width: ${breakpoints.s}) {
+      padding: 0 0.5rem;
     }
   }
 
   .tagsContainer {
     display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
     width: 100%;
-    height: 30px;
     margin: 2rem 0 2rem;
   }
 
@@ -84,7 +87,7 @@ const GlobalStyle = createGlobalStyle`
     max-height: 200px;
   }
 
-  
+
 `;
 
 export default GlobalStyle;

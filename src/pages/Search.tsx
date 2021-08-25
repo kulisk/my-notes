@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import { NavLink, useParams } from 'react-router-dom';
 import { RootState } from '../reducers/store';
 import Note from '../components/Note';
@@ -54,7 +53,7 @@ const SearchPage: React.FC = () => {
       });
   }, [searchTerm, page, dispatch]);
   return (
-    <Container>
+    <div className="customContainer">
       <ContentHeader>
         <NavLink to={CREATE_ROUTE}>
           <Icon src="./icons/plus.svg" width="37" />
@@ -80,7 +79,7 @@ const SearchPage: React.FC = () => {
           totalPages={countNotes}
         />
       )}
-    </Container>
+    </div>
   );
 };
 

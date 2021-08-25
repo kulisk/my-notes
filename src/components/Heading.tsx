@@ -8,9 +8,10 @@ interface HeadingInterface {
 }
 
 const StyledHeading = styled.h1<HeadingInterface>`
-    font-size: 4rem;
-    font-weight: 700;
-    color: ${(props) => (props.color ? props.color : colors.white)};
+  font-size: 4rem;
+  font-weight: 700;
+  color: ${(props) => (props.color ? props.color : colors.white)};
+  white-space: nowrap;
 `;
 
 const Heading: React.FC<HeadingInterface> = ({

@@ -4,6 +4,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import Icon from './Icon';
 import PaginatorButton from './PaginatorButton';
 import { HOME_ROUTE } from '../const/routes';
+import { breakpoints } from '../styles/variables';
 
 interface PaginatorInterface {
     className?: string
@@ -29,6 +30,10 @@ const StyledPaginator = styled.div<StyledPaginatorInterface>`
         flex-grow: 1;
         justify-content: flex-end;
     }
+
+  @media (max-width: ${breakpoints.s}) {
+    padding: 0 2rem;
+  }
 `;
 
 const Paginator: React.FC<PaginatorInterface> = ({

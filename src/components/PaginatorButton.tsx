@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors } from '../styles/variables';
+import { breakpoints, colors } from '../styles/variables';
 
 interface PaginatorButtonInterface {
     onClick?: () => void
@@ -22,6 +22,11 @@ const StyledPaginatorButton = styled.div<PaginatorButtonInterface>`
     &:hover {
         background-color: ${colors.primaryLight};
     }
+  
+  @media (max-width: ${breakpoints.s}) {
+    width: 78px;
+    height: 60px;
+  }
 `;
 
 const PaginatorButton: React.FC<PaginatorButtonInterface> = ({

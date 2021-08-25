@@ -7,9 +7,9 @@ interface RegularTextInterface {
 }
 
 const StyledRegularText = styled.span`
-    font-weight: 500;
-    font-size: 2.4rem;
-    color: ${(props) => props.color};
+  font-weight: 500;
+  font-size: 2.4rem;
+  color: ${(props) => props.color};
 `;
 
 const RegularText: React.FC<RegularTextInterface> = ({

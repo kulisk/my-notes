@@ -6,7 +6,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Icon from './Icon';
 import { breakpoints, colors } from '../styles/variables';
-import Heading from './Heading';
 import Tag from './Tag';
 import { EDIT_ROUTE } from '../const/routes';
 import { copy, pin, remove } from '../reducers/NoteReducer';
@@ -14,6 +13,7 @@ import { copyNote, deleteNote, updateNote } from '../http';
 import { RootState } from '../reducers/store';
 import RegularText from './RegularText';
 import { StyledConfirmAlert } from '../styles/ConfitmAlertStyle';
+import { TAGS_COUNT_IN_PREVIEW } from '../const/numbers';
 
 export interface NoteInterface {
     id: number
@@ -53,6 +53,24 @@ const StyledNote = styled.div<NoteStyle>`
     justify-content: space-between;
     align-items: center;
     width: 100%;
+  }
+  
+  .noteTitle {
+    font-size: 4rem;
+    font-weight: 700;
+    color: ${colors.primary};
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    @media (max-width: ${breakpoints.xs}) {
+      font-size: 2.4rem;
+    }
+    
+    @media (max-width: ${breakpoints.xxs}) {
+      max-width: 150px;
+    }
   }
   
   .tagsWrapper {
@@ -148,12 +166,12 @@ const Note: React.FC<NoteInterface> = ({
         }}
       >
         <div className="notePreview">
-          <Heading color={colors.primary} className="ms-5">
+          <span className="ms-5 noteTitle">
             {title}
-          </Heading>
+          </span>
           <div className="tagsWrapper">
             {tags.length !== 0
-                        && tags.map((item) => <Tag key={item}>{item}</Tag>)}
+                && tags.map((item, index) => (index < TAGS_COUNT_IN_PREVIEW ? <Tag key={item}>{item}</Tag> : null))}
           </div>
         </div>
       </NavLink>

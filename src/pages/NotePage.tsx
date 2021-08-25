@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Gallery from 'react-photo-gallery';
@@ -122,71 +121,73 @@ const NotePage: React.FC = () => {
       });
   };
   return (
-    <Container>
+    <div className="customContainer">
       <ContentHeader
         style={{ justifyContent: 'center', marginBottom: '7rem' }}
       >
         <Heading>Editing</Heading>
       </ContentHeader>
-      <RegularText color={colors.primary}>Note title</RegularText>
-      <TextInput
-        type="text"
-        style={{ marginBottom: '7rem' }}
-        value={title}
-        onChange={(event) => onChangeHandler(event, setTitle)}
-      />
+      <div className="notesFormContainer">
+        <RegularText color={colors.primary}>Note title</RegularText>
+        <TextInput
+          type="text"
+          style={{ marginBottom: '7rem' }}
+          value={title}
+          onChange={(event) => onChangeHandler(event, setTitle)}
+        />
 
-      <RegularText color={colors.primary}>Tags</RegularText>
-      <div className="tagsContainer">
-        {tags.map((value) => (
-          <div key={value} className="d-flex">
-            <Tag>{value}</Tag>
-            <button
-              type="button"
-              className="removeButton"
-              onClick={() => removeTag(value)}
-            >
-              &times;
-            </button>
-          </div>
-        ))}
+        <RegularText color={colors.primary}>Tags</RegularText>
+        <div className="tagsContainer">
+          {tags.map((value) => (
+            <div key={value} className="d-flex mb-2">
+              <Tag>{value}</Tag>
+              <button
+                type="button"
+                className="removeButton"
+                onClick={() => removeTag(value)}
+              >
+                &times;
+              </button>
+            </div>
+          ))}
+        </div>
+        <TextInput
+          type="text"
+          style={{ marginBottom: '7rem' }}
+          value={tag}
+          onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>) => addTag(event)}
+          onChange={(event) => onChangeHandler(event, setTag)}
+        />
+
+        <RegularText color={colors.primary}>
+          Images: PNG, JPG, JPEG
+        </RegularText>
+        <Gallery
+          photos={imagesSet}
+          onClick={(event, photos) => removeImage(event, photos)}
+        />
+        <FileInput
+          files={files}
+          onChange={(event) => setFiles(event.target.files)}
+        />
+
+        <RegularText color={colors.primary}>Note content</RegularText>
+        <TextArea
+          style={{ marginBottom: '7rem' }}
+          value={content}
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) => onTextareaChange(event, setContent)}
+        />
+
+        <div
+          className="d-flex justify-content-end"
+          style={{ marginBottom: '7rem' }}
+        >
+          <Button onClick={() => onSaveClick()}>
+            <Heading>Save</Heading>
+          </Button>
+        </div>
       </div>
-      <TextInput
-        type="text"
-        style={{ marginBottom: '7rem' }}
-        value={tag}
-        onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>) => addTag(event)}
-        onChange={(event) => onChangeHandler(event, setTag)}
-      />
-
-      <RegularText color={colors.primary}>
-        Images: PNG, JPG, JPEG
-      </RegularText>
-      <Gallery
-        photos={imagesSet}
-        onClick={(event, photos) => removeImage(event, photos)}
-      />
-      <FileInput
-        files={files}
-        onChange={(event) => setFiles(event.target.files)}
-      />
-
-      <RegularText color={colors.primary}>Note content</RegularText>
-      <TextArea
-        style={{ marginBottom: '7rem' }}
-        value={content}
-        onChange={(event: ChangeEvent<HTMLTextAreaElement>) => onTextareaChange(event, setContent)}
-      />
-
-      <div
-        className="d-flex justify-content-end"
-        style={{ marginBottom: '7rem' }}
-      >
-        <Button onClick={() => onSaveClick()}>
-          <Heading>Save</Heading>
-        </Button>
-      </div>
-    </Container>
+    </div>
   );
 };
 
