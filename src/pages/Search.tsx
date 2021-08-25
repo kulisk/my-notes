@@ -11,6 +11,7 @@ import Paginator from '../components/Paginator';
 import { NOTES_PER_PAGE } from '../const/numbers';
 import { getCountSearchNotes, searchNotes } from '../http';
 import { setCount, setNotes } from '../reducers/SearchReducer';
+import RegularText from '../components/RegularText';
 
 interface Params {
     term: string
@@ -62,7 +63,7 @@ const SearchPage: React.FC = () => {
           <Search />
         </div>
       </ContentHeader>
-      {notes.map((item) => (
+      {notes.length > 0 ? notes.map((item) => (
         <Note
           isPinned={item.isPinned}
           title={item.title}
@@ -71,7 +72,7 @@ const SearchPage: React.FC = () => {
           id={item.id}
           content={item.content}
         />
-      ))}
+      )) : <RegularText color="#000">there are no such notes</RegularText>}
       {countNotes > NOTES_PER_PAGE && (
         <Paginator
           className="mt-5"

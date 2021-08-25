@@ -11,6 +11,7 @@ import Paginator from '../components/Paginator';
 import { getAllNotesInPage, getCountNotes } from '../http';
 import { setNotes, setTotalCount } from '../reducers/NoteReducer';
 import { NOTES_PER_PAGE } from '../const/numbers';
+import RegularText from '../components/RegularText';
 
 interface Params {
     page: string
@@ -34,6 +35,9 @@ const Home: React.FC = () => {
           foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
         }
         dispatch(setNotes(foundNotes));
+        if (notesInPage.length === 0 && page > 1) {
+          history.push(HOME_ROUTE);
+        }
       })
       .catch((error) => {
         console.log('error in getting notes', error);
@@ -46,7 +50,7 @@ const Home: React.FC = () => {
       .catch((error) => {
         console.log('Error in counting notes', error);
       });
-  }, [countNotes, page, dispatch, history]);
+  }, [countNotes, page, dispatch, history, notesInPage.length]);
   return (
     <div className="customContainer">
       <ContentHeader>
@@ -57,7 +61,7 @@ const Home: React.FC = () => {
           <Search />
         </div>
       </ContentHeader>
-      {notesInPage.map((item) => (
+      {notesInPage.length !== 0 ? notesInPage.map((item) => (
         <Note
           isPinned={item.isPinned}
           title={item.title}
@@ -66,7 +70,7 @@ const Home: React.FC = () => {
           id={item.id}
           content={item.content}
         />
-      ))}
+      )) : <RegularText color="#000">You have not any note</RegularText>}
       {countNotes > NOTES_PER_PAGE && (
         <Paginator
           className="mt-5"
