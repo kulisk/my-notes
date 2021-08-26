@@ -77,7 +77,7 @@ const SearchPage: React.FC = () => {
         <Paginator
           className="mt-5"
           route={`${SEARCH_ROUTE}/${searchTerm}`}
-          totalPages={countNotes}
+          totalPages={countNotes / NOTES_PER_PAGE}
         />
       )}
     </div>
