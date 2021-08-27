@@ -22,7 +22,7 @@ interface Note {
 }
 
 interface ImageInterface {
-    customName: string
+    key: string
 }
 
 interface PhotoInterface {
@@ -86,9 +86,8 @@ const NotePage: React.FC = () => {
       images[photos.index],
     ]);
   };
-
   const imagesSet: ImageSetInterface[] = images.map((value) => ({
-    src: process.env.REACT_APP_API_URL + value.customName,
+    src: `https://${process.env.REACT_APP_S3_BUCKET_NAME}.s3.amazonaws.com/${value.key}`,
     width: 1,
     height: 1,
   }));
