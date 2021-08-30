@@ -16,6 +16,7 @@ import { onChangeHandler, onTextareaChange } from '../shared';
 import { NoteInterface } from '../components/Note';
 import { update } from '../reducers/NoteReducer';
 import { HOME_ROUTE } from '../const/routes';
+import { REACT_APP_S3_BUCKET_NAME } from '../const/env';
 
 interface Note {
     id: string
@@ -87,7 +88,7 @@ const NotePage: React.FC = () => {
     ]);
   };
   const imagesSet: ImageSetInterface[] = images.map((value) => ({
-    src: `https://${process.env.REACT_APP_S3_BUCKET_NAME}.s3.amazonaws.com/${value.key}`,
+    src: `https://${REACT_APP_S3_BUCKET_NAME}.s3.amazonaws.com/${value.key}`,
     width: 1,
     height: 1,
   }));
