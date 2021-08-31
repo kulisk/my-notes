@@ -6,13 +6,11 @@ interface Action {
     note: NoteInterface
     notes: NoteInterface[]
     totalCount: number
-    page: number
 }
 
 interface State {
     notes: NoteInterface[]
     totalCount: number
-    page: number
 }
 
 const PIN = 'pin';
@@ -20,14 +18,11 @@ const REMOVE = 'remove';
 const CREATE = 'create';
 const COPY = 'copy';
 const updateAction = 'update';
-const SET_TOTAL_COUNT = 'setTotalCount';
-const GO_TO_PAGE = 'goToPage';
 const SET_NOTES = 'setNotes';
 
 const defaultState: State = {
   notes: [],
   totalCount: 0,
-  page: 1,
 };
 
 const defaultNote: NoteInterface = {
@@ -43,7 +38,6 @@ const defaultAction: Action = {
   note: defaultNote,
   notes: [],
   totalCount: 0,
-  page: 0,
 };
 
 export function noteReducer(state = defaultState, action: Action): State {
@@ -52,15 +46,6 @@ export function noteReducer(state = defaultState, action: Action): State {
       return {
         ...state,
         notes: action.notes,
-      };
-    case GO_TO_PAGE:
-      return {
-        ...state,
-        page: action.page,
-      };
-    case SET_TOTAL_COUNT:
-      return {
-        ...state,
         totalCount: action.totalCount,
       };
     case PIN:
@@ -137,10 +122,9 @@ export const update = (id: number, note: NoteInterface): Action => ({
   id,
   note,
 });
-export const setTotalCount = (totalCount: number): Action => ({
+export const setNotes = (notes: NoteInterface[], totalCount: number): Action => ({
   ...defaultAction,
-  type: SET_TOTAL_COUNT,
+  type: SET_NOTES,
+  notes,
   totalCount,
 });
-export const goToPage = (page: number): Action => ({ ...defaultAction, type: GO_TO_PAGE, page });
-export const setNotes = (notes: NoteInterface[]): Action => ({ ...defaultAction, type: SET_NOTES, notes });

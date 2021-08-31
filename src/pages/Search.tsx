@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { RootState } from '../reducers/store';
 import Note from '../components/Note';
 import ContentHeader from '../components/ContentHeader';
@@ -9,8 +9,8 @@ import { CREATE_ROUTE, SEARCH_ROUTE } from '../const/routes';
 import Search from '../components/Search';
 import Paginator from '../components/Paginator';
 import { NOTES_PER_PAGE } from '../const/numbers';
-import { getCountSearchNotes, searchNotes } from '../http';
-import { setCount, setNotes } from '../reducers/SearchReducer';
+import { searchNotes } from '../http';
+import { setNotes } from '../reducers/SearchReducer';
 import RegularText from '../components/RegularText';
 
 interface Params {
@@ -20,6 +20,7 @@ interface Params {
 
 const SearchPage: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const params: Params = useParams();
   const searchTerm = params.term;
   const page = +params.page;
@@ -35,24 +36,19 @@ const SearchPage: React.FC = () => {
     }
     searchNotes(searchTerm, page)
       .then((response) => {
-        const foundNotes = response.data;
+        const foundNotes = response.data[0];
         for (let i = 0; i < foundNotes.length; i++) {
           foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
         }
-        dispatch(setNotes(foundNotes));
+        dispatch(setNotes(foundNotes, response.data[1]));
+        if (page > 1 && foundNotes.length === 0) {
+          history.push(`${SEARCH_ROUTE}/${searchTerm}/${page - 1}`);
+        }
       })
       .catch((error) => {
         console.log('Search notes error', error);
       });
-
-    getCountSearchNotes(searchTerm)
-      .then((response) => {
-        dispatch(setCount(response.data));
-      })
-      .catch((error) => {
-        console.log('Count search notes error', error);
-      });
-  }, [searchTerm, page, dispatch]);
+  }, [searchTerm, page, dispatch, history, notes]);
   return (
     <div className="customContainer">
       <ContentHeader>

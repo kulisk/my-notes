@@ -8,8 +8,8 @@ import Icon from '../components/Icon';
 import { CREATE_ROUTE, HOME_ROUTE } from '../const/routes';
 import Search from '../components/Search';
 import Paginator from '../components/Paginator';
-import { getAllNotesInPage, getCountNotes } from '../http';
-import { setNotes, setTotalCount } from '../reducers/NoteReducer';
+import { getAllNotesInPage } from '../http';
+import { setNotes } from '../reducers/NoteReducer';
 import { NOTES_PER_PAGE } from '../const/numbers';
 import RegularText from '../components/RegularText';
 
@@ -30,25 +30,17 @@ const Home: React.FC = () => {
   useEffect(() => {
     getAllNotesInPage(page)
       .then((response) => {
-        const foundNotes = response.data;
+        const foundNotes = response.data[0];
         for (let i = 0; i < foundNotes.length; i++) {
           foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
         }
-        dispatch(setNotes(foundNotes));
-        if (notesInPage.length === 0 && page > 1) {
-          history.push(HOME_ROUTE);
+        dispatch(setNotes(foundNotes, response.data[1]));
+        if (page > 1 && foundNotes.length === 0) {
+          history.push(`${HOME_ROUTE}${page - 1}`);
         }
       })
       .catch((error) => {
         console.log('error in getting notes', error);
-      });
-
-    getCountNotes()
-      .then((res) => {
-        dispatch(setTotalCount(res.data));
-      })
-      .catch((error) => {
-        console.log('Error in counting notes', error);
       });
   }, [countNotes, page, dispatch, history, notesInPage.length]);
   return (

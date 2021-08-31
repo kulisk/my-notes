@@ -44,5 +44,3 @@ export const searchNotes = (
   term: string,
   page: number,
 ): Promise<AxiosResponse> => notesHttp.get(`notes/search/${term}/${page}`);
-export const getCountNotes = (): Promise<AxiosResponse> => notesHttp.get('notes/count/getCount');
-export const getCountSearchNotes = (term: string): Promise<AxiosResponse> => notesHttp.get(`notes/count/getCount/${term}`);
