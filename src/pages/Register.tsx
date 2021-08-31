@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import validator from 'validator';
 import AuthButton from '../components/AuthButton';
 import RegularText from '../components/RegularText';
 import { colors } from '../styles/variables';
@@ -8,6 +9,7 @@ import TextInputItem from '../components/TextInputItem';
 import { signUp } from '../http';
 import { onChangeHandler } from '../shared';
 import { LOGIN_ROUTE } from '../const/routes';
+import { Alert } from '../components/Alert';
 
 const Register: React.FC = () => {
   const [login, setLogin] = useState('');
@@ -24,8 +26,17 @@ const Register: React.FC = () => {
   };
 
   function onRegisterClick() {
+    if (login === '' || email === '' || password === '') {
+      Alert('Fill in all the fields');
+      return;
+    }
+    if (!validator.isEmail(email)) {
+      Alert('Wrong email');
+      return;
+    }
     if (password !== confirmPassword) {
-      console.log('Password mismatch');
+      Alert('Passwords mismatch');
+      return;
     }
 
     signUp(postData)

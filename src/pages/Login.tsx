@@ -10,6 +10,7 @@ import { HOME_ROUTE, REGISTRATION_ROUTE } from '../const/routes';
 import SmallText from '../components/SmallText';
 import TextInputItem from '../components/TextInputItem';
 import { signIn } from '../http';
+import { Alert } from '../components/Alert';
 
 const Login: React.FC = () => {
   const [login, setLogin] = useState('');
@@ -32,6 +33,10 @@ const Login: React.FC = () => {
   };
 
   function onLoginClick() {
+    if (login === '' || password === '') {
+      Alert('Fill in all the fields');
+      return;
+    }
     signIn(postData)
       .then((response) => {
         localStorage.setItem('accessToken', response.data.accessToken);
