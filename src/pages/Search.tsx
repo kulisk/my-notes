@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { RootState } from '../reducers/store';
@@ -12,6 +12,7 @@ import { NOTES_PER_PAGE } from '../const/numbers';
 import { searchNotes } from '../http';
 import { setNotes } from '../reducers/SearchReducer';
 import RegularText from '../components/RegularText';
+import Loading from '../components/Loading';
 
 interface Params {
     term: string
@@ -19,6 +20,8 @@ interface Params {
 }
 
 const SearchPage: React.FC = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const params: Params = useParams();
@@ -41,6 +44,7 @@ const SearchPage: React.FC = () => {
           foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
         }
         dispatch(setNotes(foundNotes, response.data[1]));
+        setIsLoaded(true);
         if (page > 1 && foundNotes.length === 0) {
           history.push(`${SEARCH_ROUTE}/${searchTerm}/${page - 1}`);
         }
@@ -49,35 +53,39 @@ const SearchPage: React.FC = () => {
         console.log('Search notes error', error);
       });
   }, [searchTerm, page, dispatch, history, notes]);
-  return (
-    <div className="customContainer">
-      <ContentHeader>
-        <NavLink to={CREATE_ROUTE}>
-          <Icon src="./icons/plus.svg" width="37" />
-        </NavLink>
-        <div className="d-flex justify-content-center flex-grow-1">
-          <Search />
-        </div>
-      </ContentHeader>
-      {notes.length > 0 ? notes.map((item) => (
-        <Note
-          isPinned={item.isPinned}
-          title={item.title}
-          tags={item.tags}
-          key={item.id}
-          id={item.id}
-          content={item.content}
-        />
-      )) : <RegularText color="#000">there are no such notes</RegularText>}
-      {countNotes > NOTES_PER_PAGE && (
+
+  if (isLoaded) {
+    return (
+      <div className="customContainer">
+        <ContentHeader>
+          <NavLink to={CREATE_ROUTE}>
+            <Icon src="./icons/plus.svg" width="37" />
+          </NavLink>
+          <div className="d-flex justify-content-center flex-grow-1">
+            <Search />
+          </div>
+        </ContentHeader>
+        {notes.length > 0 ? notes.map((item) => (
+          <Note
+            isPinned={item.isPinned}
+            title={item.title}
+            tags={item.tags}
+            key={item.id}
+            id={item.id}
+            content={item.content}
+          />
+        )) : <RegularText color="#000">there are no such notes</RegularText>}
+        {countNotes > NOTES_PER_PAGE && (
         <Paginator
           className="mt-5"
           route={`${SEARCH_ROUTE}/${searchTerm}`}
           totalPages={countNotes / NOTES_PER_PAGE}
         />
-      )}
-    </div>
-  );
+        )}
+      </div>
+    );
+  }
+  return <Loading />;
 };
 
 export default SearchPage;
