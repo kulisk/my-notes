@@ -16,7 +16,6 @@ import { onChangeHandler, onTextareaChange } from '../shared';
 import { NoteInterface } from '../components/Note';
 import { update } from '../reducers/NoteReducer';
 import { HOME_ROUTE } from '../const/routes';
-import { REACT_APP_S3_BUCKET_NAME } from '../const/env';
 
 interface Note {
     id: string
@@ -49,6 +48,8 @@ const NotePage: React.FC = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const { REACT_APP_S3_BUCKET_NAME } = process.env;
 
   useEffect(() => {
     getOneNote(+id)

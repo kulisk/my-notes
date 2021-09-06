@@ -31,6 +31,7 @@ const Home: React.FC = () => {
   const countNotes = useSelector((state: RootState) => state.notes.totalCount);
 
   useEffect(() => {
+    let cleanupFunction = false;
     getAllNotesInPage(page)
       .then((response) => {
         const foundNotes = response.data[0];
@@ -38,7 +39,7 @@ const Home: React.FC = () => {
           foundNotes[i].tags = JSON.parse(foundNotes[i].tags);
         }
         dispatch(setNotes(foundNotes, response.data[1]));
-        setIsLoaded(true);
+        if (!cleanupFunction) setIsLoaded(true);
         if (page > 1 && foundNotes.length === 0) {
           history.push(`${HOME_ROUTE}${page - 1}`);
         }
@@ -46,7 +47,10 @@ const Home: React.FC = () => {
       .catch((error) => {
         console.log('error in getting notes', error);
       });
-  }, [countNotes, page, dispatch, history, notesInPage.length]);
+    return () => {
+      cleanupFunction = true;
+    };
+  }, [page, dispatch, history, countNotes]);
   if (isLoaded) {
     return (
       <div className="customContainer">
@@ -69,11 +73,11 @@ const Home: React.FC = () => {
           />
         )) : <RegularText color="#000">You have not any note</RegularText>}
         {countNotes > NOTES_PER_PAGE && (
-          <Paginator
-            className="mt-5"
-            route={HOME_ROUTE}
-            totalPages={countNotes / NOTES_PER_PAGE}
-          />
+        <Paginator
+          className="mt-5"
+          route={HOME_ROUTE}
+          totalPages={countNotes / NOTES_PER_PAGE}
+        />
         )}
       </div>
     );
