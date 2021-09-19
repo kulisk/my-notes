@@ -6,7 +6,7 @@ import AuthForm from '../components/AuthForm';
 import AuthButton from '../components/AuthButton';
 import { colors } from '../styles/variables';
 import RegularText from '../components/RegularText';
-import { HOME_ROUTE, REGISTRATION_ROUTE } from '../const/routes';
+import { HOME_ROUTE, RECOVER_ROUTE, REGISTRATION_ROUTE } from '../const/routes';
 import SmallText from '../components/SmallText';
 import TextInputItem from '../components/TextInputItem';
 import { signIn } from '../http';
@@ -65,6 +65,18 @@ const Login: React.FC = () => {
       <AuthButton onClick={() => onLoginClick()}>
         <RegularText color={colors.white}>Log in</RegularText>
       </AuthButton>
+      <div
+        style={{
+          marginTop: '30px',
+          textAlign: 'center',
+        }}
+      >
+        <NavLink to={RECOVER_ROUTE}>
+          <SmallText color="blue">
+            Forgot password?
+          </SmallText>
+        </NavLink>
+      </div>
       <div
         style={{
           marginTop: '30px',

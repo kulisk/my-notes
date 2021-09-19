@@ -8,3 +8,11 @@ export interface SignUpDataInterface {
     email: string
     password: string
 }
+
+export interface SendEmailInterface {
+    email: string
+}
+
+export interface ResetPasswordInterface {
+    password: string
+}
