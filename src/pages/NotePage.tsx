@@ -16,6 +16,8 @@ import { onChangeHandler, onTextareaChange } from '../shared';
 import { NoteInterface } from '../components/Note';
 import { update } from '../reducers/NoteReducer';
 import { HOME_ROUTE } from '../const/routes';
+import { socket } from '../websocket';
+import { UPDATE } from '../const/websocket-events';
 
 interface Note {
     id: string
@@ -114,7 +116,7 @@ const NotePage: React.FC = () => {
           title,
           content,
         };
-        dispatch(update(+id, updatedNote));
+        socket.emit(UPDATE, { id: updatedNote.id, note: updatedNote });
         history.push(HOME_ROUTE);
       })
       .catch((error) => {

@@ -8,12 +8,14 @@ import Icon from './Icon';
 import { breakpoints, colors } from '../styles/variables';
 import Tag from './Tag';
 import { EDIT_ROUTE } from '../const/routes';
-import { copy, pin, remove } from '../reducers/NoteReducer';
+import { copy, remove } from '../reducers/NoteReducer';
 import { copyNote, deleteNote, updateNote } from '../http';
 import { RootState } from '../reducers/store';
 import RegularText from './RegularText';
 import { StyledConfirmAlert } from '../styles/ConfitmAlertStyle';
 import { TAGS_COUNT_IN_PREVIEW } from '../const/numbers';
+import { socket } from '../websocket';
+import { COPY, PIN, REMOVE } from '../const/websocket-events';
 
 export interface NoteInterface {
     id: number
@@ -38,7 +40,7 @@ const StyledNote = styled.div<NoteStyle>`
   border-right: 1px solid ${colors.primary};
   border-bottom: 1px solid ${colors.primary};
   transition: 0.2s linear all;
-  
+
   @media (max-width: ${breakpoints.s}) {
     padding: 0 2rem;
   }
@@ -54,7 +56,7 @@ const StyledNote = styled.div<NoteStyle>`
     align-items: center;
     width: 100%;
   }
-  
+
   .noteTitle {
     font-size: 4rem;
     font-weight: 700;
@@ -63,16 +65,16 @@ const StyledNote = styled.div<NoteStyle>`
     max-width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
-    
+
     @media (max-width: ${breakpoints.xs}) {
       font-size: 2.4rem;
     }
-    
+
     @media (max-width: ${breakpoints.xxs}) {
       max-width: 150px;
     }
   }
-  
+
   .tagsWrapper {
     display: flex;
     @media (max-width: ${breakpoints.s}) {
@@ -92,7 +94,7 @@ const Note: React.FC<NoteInterface> = ({
   function onDeleteClick() {
     deleteNote(id)
       .then(() => {
-        dispatch(remove(id));
+        socket.emit(REMOVE, { id });
       })
       .catch((error) => {
         console.log(error);
@@ -129,7 +131,7 @@ const Note: React.FC<NoteInterface> = ({
     updateData.append('isPinned', JSON.stringify(!note.isPinned));
     updateNote(id.toString(), updateData)
       .then(() => {
-        dispatch(pin(id));
+        socket.emit(PIN, { id });
       })
       .catch((e) => {
         console.log(e);
@@ -141,7 +143,7 @@ const Note: React.FC<NoteInterface> = ({
       .then((res) => {
         const duplicate: NoteInterface = res.data;
         duplicate.tags = JSON.parse(res.data.tags);
-        dispatch(copy(id, duplicate));
+        socket.emit(COPY, { id, duplicate });
       })
       .catch((e) => {
         console.log(e);
@@ -171,7 +173,8 @@ const Note: React.FC<NoteInterface> = ({
           </span>
           <div className="tagsWrapper">
             {tags.length !== 0
-                && tags.map((item, index) => (index < TAGS_COUNT_IN_PREVIEW ? <Tag key={item}>{item}</Tag> : null))}
+                        && tags.map((item, index) => (index < TAGS_COUNT_IN_PREVIEW
+                          ? <Tag key={item}>{item}</Tag> : null))}
           </div>
         </div>
       </NavLink>

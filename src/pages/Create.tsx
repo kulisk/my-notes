@@ -15,6 +15,8 @@ import { create } from '../reducers/NoteReducer';
 import { NoteInterface } from '../components/Note';
 import { HOME_ROUTE } from '../const/routes';
 import { createNote } from '../http';
+import { socket } from '../websocket';
+import { CREATE } from '../const/websocket-events';
 
 const Create: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -56,7 +58,7 @@ const Create: React.FC = () => {
           title,
           content,
         };
-        dispatch(create(newNote));
+        socket.emit(CREATE, { note: newNote });
         history.push(HOME_ROUTE);
       })
       .catch((e) => {
