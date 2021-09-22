@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ContentHeader from '../components/ContentHeader';
 import Heading from '../components/Heading';
@@ -11,7 +10,6 @@ import { colors } from '../styles/variables';
 import { onChangeHandler, onTextareaChange } from '../shared';
 import FileInput from '../components/FileInput';
 import Tag from '../components/Tag';
-import { create } from '../reducers/NoteReducer';
 import { NoteInterface } from '../components/Note';
 import { HOME_ROUTE } from '../const/routes';
 import { createNote } from '../http';
@@ -25,7 +23,6 @@ const Create: React.FC = () => {
   const [files, setFiles] = useState<FileList | null>(null);
   const [content, setContent] = useState('');
 
-  const dispatch = useDispatch();
   const history = useHistory();
 
   function addTag(event: React.KeyboardEvent<HTMLInputElement>) {

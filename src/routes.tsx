@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   CREATE_ROUTE,
   EDIT_ROUTE,
@@ -18,48 +19,53 @@ import EmailInput from './pages/EmailInput';
 import PasswordRecover from './pages/PasswordRecover';
 import Message from './components/Message';
 
-export const authRoutes = [
+export interface RouteInterface {
+    path: string;
+    Component: () => JSX.Element;
+}
+
+export const authRoutes: RouteInterface[] = [
   {
     path: HOME_ROUTE,
-    Component: Home,
+    Component: () => <Home key={window.location.pathname} />,
   },
   {
     path: `${HOME_ROUTE}:page`,
-    Component: Home,
+    Component: () => <Home key={window.location.pathname} />,
   },
   {
     path: `${EDIT_ROUTE}/:id`,
-    Component: NotePage,
+    Component: () => <NotePage key={window.location.pathname} />,
   },
   {
     path: CREATE_ROUTE,
-    Component: Create,
+    Component: () => <Create key={window.location.pathname} />,
   },
   {
     path: `${SEARCH_ROUTE}/:term/:page`,
-    Component: Search,
+    Component: () => <Search key={window.location.pathname} />,
   },
 ];
 
-export const publicRoutes = [
+export const publicRoutes: RouteInterface[] = [
   {
     path: LOGIN_ROUTE,
-    Component: Login,
+    Component: () => <Login key={window.location.pathname} />,
   },
   {
     path: REGISTRATION_ROUTE,
-    Component: Register,
+    Component: () => <Register key={window.location.pathname} />,
   },
   {
     path: RECOVER_ROUTE,
-    Component: EmailInput,
+    Component: () => <EmailInput key={window.location.pathname} />,
   },
   {
     path: `${RECOVER_ROUTE}/:token`,
-    Component: PasswordRecover,
+    Component: () => <PasswordRecover key={window.location.pathname} />,
   },
   {
     path: MESSAGE_ROUTE,
-    Component: Message,
+    Component: () => <Message key={window.location.pathname} />,
   },
 ];

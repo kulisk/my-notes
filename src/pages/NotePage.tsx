@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Gallery from 'react-photo-gallery';
 import ContentHeader from '../components/ContentHeader';
@@ -14,7 +13,6 @@ import { getOneNote, updateNote } from '../http';
 import Tag from '../components/Tag';
 import { onChangeHandler, onTextareaChange } from '../shared';
 import { NoteInterface } from '../components/Note';
-import { update } from '../reducers/NoteReducer';
 import { HOME_ROUTE } from '../const/routes';
 import { socket } from '../websocket';
 import { UPDATE } from '../const/websocket-events';
@@ -48,7 +46,6 @@ const NotePage: React.FC = () => {
   const [images, setImages] = useState<ImageInterface[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<ImageInterface[]>([]);
 
-  const dispatch = useDispatch();
   const history = useHistory();
 
   const { REACT_APP_S3_BUCKET_NAME } = process.env;

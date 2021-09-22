@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Icon from './Icon';
 import { breakpoints, colors } from '../styles/variables';
 import Tag from './Tag';
 import { EDIT_ROUTE } from '../const/routes';
-import { copy, remove } from '../reducers/NoteReducer';
 import { copyNote, deleteNote, updateNote } from '../http';
 import { RootState } from '../reducers/store';
 import RegularText from './RegularText';
@@ -86,7 +85,6 @@ const StyledNote = styled.div<NoteStyle>`
 const Note: React.FC<NoteInterface> = ({
   isPinned, title, tags, id,
 }) => {
-  const dispatch = useDispatch();
   const note = useSelector(
     (state: RootState) => state.notes.notes.filter((element) => element.id === +id)[0],
   );

@@ -27,12 +27,12 @@ const Home: React.FC = () => {
   const params: Params = useParams();
   const pageNumber = params.page ? +params.page : 1;
   const page = Number.isNaN(pageNumber) ? 1 : pageNumber;
-  const notesInPage = useSelector((state: RootState) => state.notes.notes);
-  const countNotes = useSelector((state: RootState) => state.notes.totalCount);
+
+  const notes = useSelector((state: RootState) => state.notes);
 
   useEffect(() => {
     let cleanupFunction = false;
-    getAllNotesInPage(page)
+    getAllNotesInPage(+page)
       .then((response) => {
         const foundNotes = response.data[0];
         for (let i = 0; i < foundNotes.length; i++) {
@@ -40,8 +40,8 @@ const Home: React.FC = () => {
         }
         dispatch(setNotes(foundNotes, response.data[1]));
         if (!cleanupFunction) setIsLoaded(true);
-        if (page > 1 && foundNotes.length === 0) {
-          history.push(`${HOME_ROUTE}${page - 1}`);
+        if (+page > 1 && foundNotes.length === 0) {
+          history.push(`${HOME_ROUTE}${+page - 1}`);
         }
       })
       .catch((error) => {
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
     return () => {
       cleanupFunction = true;
     };
-  }, [page, dispatch, history, countNotes]);
+  }, [page, dispatch, history]);
   if (isLoaded) {
     return (
       <div className="customContainer">
@@ -62,7 +62,7 @@ const Home: React.FC = () => {
             <Search />
           </div>
         </ContentHeader>
-        {notesInPage.length !== 0 ? notesInPage.map((item) => (
+        {notes.notes.length !== 0 ? notes.notes.map((item) => (
           <Note
             isPinned={item.isPinned}
             title={item.title}
@@ -72,11 +72,11 @@ const Home: React.FC = () => {
             content={item.content}
           />
         )) : <RegularText color="#000">You have not any note</RegularText>}
-        {countNotes > NOTES_PER_PAGE && (
+        {notes.totalCount > NOTES_PER_PAGE && (
         <Paginator
           className="mt-5"
           route={HOME_ROUTE}
-          totalPages={countNotes / NOTES_PER_PAGE}
+          totalPages={notes.totalCount / NOTES_PER_PAGE}
         />
         )}
       </div>
