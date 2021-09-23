@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { loginAction } from '../reducers/UserReducer';
 import AuthForm from '../components/AuthForm';
 import AuthButton from '../components/AuthButton';
 import { colors } from '../styles/variables';
 import RegularText from '../components/RegularText';
-import { RECOVER_ROUTE, REGISTRATION_ROUTE } from '../const/routes';
+import { HOME_ROUTE, RECOVER_ROUTE, REGISTRATION_ROUTE } from '../const/routes';
 import SmallText from '../components/SmallText';
 import TextInputItem from '../components/TextInputItem';
 import { signIn } from '../http';
@@ -17,6 +17,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const onLoginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLogin(event.target.value);
@@ -40,6 +41,7 @@ const Login: React.FC = () => {
       .then((response) => {
         localStorage.setItem('accessToken', response.data.accessToken);
         dispatch(loginAction(response.data.login));
+        history.push(HOME_ROUTE);
       })
       .catch((e) => {
         console.log(e);

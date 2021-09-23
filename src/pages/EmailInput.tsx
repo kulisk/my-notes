@@ -22,6 +22,7 @@ const EmailInput: React.FC = () => {
     }
     if (!validator.isEmail(email)) {
       Alert('Wrong email');
+      return;
     }
 
     const data = {
@@ -36,8 +37,8 @@ const EmailInput: React.FC = () => {
           error: '',
         },
       });
-    }).catch((error) => {
-      console.log('Error in sending email', error);
+    }).catch(() => {
+      Alert('User with this email does not exist');
     });
   };
   return (

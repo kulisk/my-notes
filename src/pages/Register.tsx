@@ -43,8 +43,8 @@ const Register: React.FC = () => {
       .then(() => {
         history.push(LOGIN_ROUTE);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        Alert('Registration error');
       });
   }
 

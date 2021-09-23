@@ -19,7 +19,7 @@ import EmailInput from './pages/EmailInput';
 import PasswordRecover from './pages/PasswordRecover';
 import Message from './components/Message';
 
-export interface RouteInterface {
+interface RouteInterface {
     path: string;
     Component: () => JSX.Element;
 }
