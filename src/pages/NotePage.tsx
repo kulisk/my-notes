@@ -48,8 +48,6 @@ const NotePage: React.FC = () => {
 
   const history = useHistory();
 
-  const { REACT_APP_S3_BUCKET_NAME } = process.env;
-
   useEffect(() => {
     getOneNote(+id)
       .then((response) => {
@@ -88,7 +86,7 @@ const NotePage: React.FC = () => {
     ]);
   };
   const imagesSet: ImageSetInterface[] = images.map((value) => ({
-    src: `https://${REACT_APP_S3_BUCKET_NAME}.s3.amazonaws.com/${value.key}`,
+    src: `${process.env.REACT_APP_AMAZONAWS_URL}/${value.key}`,
     width: 1,
     height: 1,
   }));
